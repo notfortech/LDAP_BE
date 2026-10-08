@@ -1,0 +1,171 @@
+name: build-and-push
+
+# Builds the backend image and pushes it to Docker Hub.
+#
+# The image is smoke-tested before it is pushed, not after: a tag that
+# exists in a registry is a tag someone can deploy, so a broken one
+# should never get there. The test runs the image that is about to be
+# published against a real PostgreSQL, applies migrations with the
+# image's own Alembic, and asserts the app boots with row-level
+# security enforced.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to publish (staging, or a release name)"
+        required: true
+        default: staging
+  push:
+    branches: [main]
+
+env:
+  IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/ldap-be
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: aptus
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 2s --health-timeout 3s --health-retries 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fail early if Docker Hub credentials are missing
+        env:
+          USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          # A missing secret otherwise surfaces as a confusing push
+          # failure several minutes into the run.
+          test -n "$USERNAME" || { echo "::error::DOCKERHUB_USERNAME secret is not set"; exit 1; }
+          test -n "$TOKEN"    || { echo "::error::DOCKERHUB_TOKEN secret is not set"; exit 1; }
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Work out the tags
+        id: tags
+        run: |
+          TAG="${{ inputs.tag || 'staging' }}"
+          echo "primary=$TAG" >> "$GITHUB_OUTPUT"
+          # Also tag with the commit, so a deployed container can always
+          # be traced back to the source it was built from.
+          echo "sha=${GITHUB_SHA::12}" >> "$GITHUB_OUTPUT"
+
+      # Built and loaded locally first. Pushing before the smoke test
+      # would put a tag in the registry that nobody has verified.
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: ldap-be:candidate
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Create database roles
+        env:
+          PGPASSWORD: postgres
+        run: |
+          psql -h localhost -U postgres -d aptus -v ON_ERROR_STOP=1 <<'SQL'
+          CREATE ROLE aptus_owner LOGIN PASSWORD 'ownerpw' NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS;
+          CREATE ROLE aptus_app   LOGIN PASSWORD 'apppw'   NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS;
+          GRANT CONNECT ON DATABASE aptus TO aptus_owner, aptus_app;
+          ALTER SCHEMA public OWNER TO aptus_owner;
+          GRANT USAGE ON SCHEMA public TO aptus_app;
+          ALTER DEFAULT PRIVILEGES FOR ROLE aptus_owner IN SCHEMA public
+            GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO aptus_app;
+          ALTER DEFAULT PRIVILEGES FOR ROLE aptus_owner IN SCHEMA public
+            GRANT USAGE, SELECT ON SEQUENCES TO aptus_app;
+          SQL
+
+      # Uses the image's own Alembic, which is how the deployment will
+      # run migrations too. If the image cannot migrate, it cannot ship.
+      - name: Run migrations from inside the image
+        run: |
+          docker run --rm --network host \
+            -e APTUS_ENV=development \
+            -e APTUS_DATABASE_URL="postgresql+psycopg://aptus_owner:ownerpw@127.0.0.1:5432/aptus" \
+            ldap-be:candidate \
+            sh -c 'cd /srv/api && alembic upgrade head'
+
+      - name: Grant the app role rights on the new tables
+        env:
+          PGPASSWORD: postgres
+        run: |
+          psql -h localhost -U postgres -d aptus -v ON_ERROR_STOP=1 -c \
+            "GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO aptus_app;
+             GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO aptus_app;"
+
+      - name: Smoke test the image
+        run: |
+          docker run -d --name candidate --network host \
+            -e APTUS_ENV=production \
+            -e APTUS_SECRET_KEY="ci-smoke-key-at-least-thirty-two-characters-long" \
+            -e APTUS_DATABASE_URL="postgresql+psycopg://aptus_app:apppw@127.0.0.1:5432/aptus" \
+            -e APTUS_ALLOWED_ORIGINS="https://smoke.example.edu.au" \
+            -e APTUS_REQUIRE_EMAIL_VERIFICATION=false \
+            ldap-be:candidate
+
+          for _ in $(seq 1 30); do
+            curl -sf http://127.0.0.1:8080/health >/dev/null && break
+            sleep 2
+          done
+
+          curl -sf http://127.0.0.1:8080/health  > /dev/null || { docker logs candidate; exit 1; }
+          curl -sf http://127.0.0.1:8080/version > /dev/null || { docker logs candidate; exit 1; }
+
+          # The one that matters. A superuser or BYPASSRLS connection
+          # ignores every policy silently, so "it started" is not enough.
+          python - <<'PY'
+          import json, sys, urllib.request
+          r = json.load(urllib.request.urlopen("http://127.0.0.1:8080/rls"))
+          if not r["enforced"]:
+              sys.exit(f"row-level security NOT enforced: {r['problems']}")
+          print(f"rls enforced as {r['role']} across {len(r['tables'])} tables")
+          PY
+
+          docker rm -f candidate
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Re-runs the build, but every layer is a cache hit, so this is a
+      # push of the bytes just tested rather than a rebuild.
+      - name: Push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.IMAGE }}:${{ steps.tags.outputs.primary }}
+            ${{ env.IMAGE }}:${{ steps.tags.outputs.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Summary
+        run: |
+          {
+            echo "### Pushed"
+            echo ""
+            echo '```'
+            echo "${{ env.IMAGE }}:${{ steps.tags.outputs.primary }}"
+            echo "${{ env.IMAGE }}:${{ steps.tags.outputs.sha }}"
+            echo '```'
+            echo ""
+            echo "Smoke tested before push: migrations applied, app booted,"
+            echo "row-level security confirmed enforced."
+          } >> "$GITHUB_STEP_SUMMARY"

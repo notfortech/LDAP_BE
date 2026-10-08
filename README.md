@@ -60,7 +60,7 @@ pytest
 | Assessment-to-pathway flow | Built — invite, assess, score, passport, pathway |
 | Reference library (global + org fork, versioned) | Built — model and resolver |
 | Row-level security (database layer) | Built — policies, posture guard, 13 tests on real PostgreSQL |
-| Deployment (Fly.io, Sydney) | Built — Dockerfile, fly.toml, deploy/FLY.md |
+| Deployment | Built — Dockerfile (verified), Docker Hub workflow, deploy/AZURE.md and deploy/FLY.md |
 | Colleague invitation | Not started |
 
 The backlog driving the remaining work is the backend story set: an
