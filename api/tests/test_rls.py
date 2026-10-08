@@ -48,13 +48,13 @@ def tenants(admin_engine):
             "INSERT INTO organisations (name,slug,contact_email,status,created_at) "
             "VALUES ('RLS B','rls-b','b@b.edu','ACTIVE',now()) RETURNING id"
         )).scalar_one()
-        for org, email, digest in ((a, "a@learner.edu", "rls-h-a"), (b, "b@learner.edu", "rls-h-b")):
+        for org, email in ((a, "a@learner.edu"), (b, "b@learner.edu")):
             c.execute(text("SELECT set_config('app.current_organisation', :o, false)"),
                       {"o": str(org)})
             c.execute(text(
-                "INSERT INTO candidates (organisation_id,email,access_token_hash,invited_at) "
-                "VALUES (:o,:e,:h,now())"
-            ), {"o": org, "e": email, "h": digest})
+                "INSERT INTO candidates (organisation_id,email,invited_at) "
+                "VALUES (:o,:e,now())"
+            ), {"o": org, "e": email})
     return {"a": a, "b": b}
 
 
@@ -110,8 +110,8 @@ def test_writing_into_another_tenant_is_refused(app_engine, tenants):
             c.execute(text("SELECT set_config('app.current_organisation', :o, false)"),
                       {"o": str(tenants["a"])})
             c.execute(text(
-                "INSERT INTO candidates (organisation_id,email,access_token_hash,invited_at) "
-                "VALUES (:o,'smuggled@a.edu','rls-h-x',now())"
+                "INSERT INTO candidates (organisation_id,email,invited_at) "
+                "VALUES (:o,'smuggled@a.edu',now())"
             ), {"o": tenants["b"]})
     assert "row-level security" in str(exc.value).lower()
 
@@ -215,3 +215,65 @@ def test_tenant_context_cannot_write_a_global_row_even_as_owner(admin_engine, te
                         'https://training.gov.au/z',false,now())
             """))
     assert "row-level security" in str(exc.value).lower()
+
+
+# Tables that hold tenant data and must carry a policy.
+MUST_BE_PROTECTED = {
+    "candidates", "candidate_assignments", "assessment_attempts",
+    "attempt_construct_scores", "training_references",
+}
+
+# Tables deliberately outside row-level security, each for a stated
+# reason. Anything not in either set fails the coverage test below.
+DELIBERATELY_UNPROTECTED = {
+    # The authentication bootstrap path: these are read before any
+    # tenant is known, so a policy would deny the read that establishes
+    # tenancy in the first place.
+    "users", "session_tokens", "email_verifications",
+    "candidate_access_tokens",
+    # Organisation and membership resolve which tenant a caller may act
+    # as; they are keyed by a verified principal, not by tenant.
+    "organisations", "memberships",
+    # Append-only audit trail, written by the application and read
+    # through an organisation-scoped endpoint.
+    "audit_events",
+    "alembic_version",
+}
+
+
+def test_every_table_is_either_protected_or_deliberately_exempt(admin_engine):
+    """Fails when a table is added that is neither covered by a policy
+    nor listed as a considered exemption. Without this, a new tenant
+    table silently ships unprotected."""
+    with admin_engine.connect() as c:
+        actual = {
+            r.tablename: r.rowsecurity
+            for r in c.execute(text(
+                "SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname='public'"
+            ))
+        }
+
+    unclassified = set(actual) - MUST_BE_PROTECTED - DELIBERATELY_UNPROTECTED
+    assert not unclassified, (
+        f"Tables neither protected nor listed as exempt: {sorted(unclassified)}. "
+        "Add a policy, or add it to DELIBERATELY_UNPROTECTED with a reason."
+    )
+
+    for table in MUST_BE_PROTECTED:
+        assert actual.get(table) is True, f"{table} should have row-level security enabled"
+
+
+def test_a_candidate_token_row_carries_no_learner_data(admin_engine):
+    """The one table outside RLS that touches candidates holds only a
+    digest and the links needed to establish tenancy."""
+    with admin_engine.connect() as c:
+        columns = {
+            r.column_name for r in c.execute(text(
+                "SELECT column_name FROM information_schema.columns "
+                "WHERE table_name = 'candidate_access_tokens'"
+            ))
+        }
+    assert columns == {
+        "id", "token_hash", "candidate_id", "organisation_id",
+        "revoked_at", "created_at",
+    }, f"Unexpected columns on the unprotected token table: {sorted(columns)}"

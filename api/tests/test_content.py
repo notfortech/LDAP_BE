@@ -81,3 +81,41 @@ def test_quick_set_is_a_subset_of_full(bank):
     """Practice must draw from the same bank as the formal assessment;
     otherwise practice is not practice for anything."""
     assert set(bank.sets["quick"]["question_ids"]) <= set(bank.sets["full"]["question_ids"])
+
+
+def test_engine_config_dir_is_explicit_in_an_installed_layout(monkeypatch, tmp_path):
+    """Regression guard for a deployment-only failure.
+
+    The repository-relative default resolves in a source checkout and
+    does not once the package is installed under site-packages, where
+    walking upwards lands somewhere meaningless. A container would have
+    booted cleanly and then failed on a candidate's first assessment.
+    The error must name the variable that fixes it.
+    """
+    from aptus_api import engine_bridge
+
+    engine_bridge.get_engine_config.cache_clear()
+    monkeypatch.setenv("APTUS_ENGINE_CONFIG_DIR", str(tmp_path / "nowhere"))
+    try:
+        with pytest.raises(Exception) as exc:
+            engine_bridge.get_engine_config()
+        message = str(exc.value)
+        assert "APTUS_ENGINE_CONFIG_DIR" in message
+        assert "manifest.json" in message
+    finally:
+        engine_bridge.get_engine_config.cache_clear()
+
+
+def test_engine_config_dir_env_var_is_honoured(monkeypatch):
+    from pathlib import Path
+
+    from aptus_api import engine_bridge
+
+    repo_config = Path(__file__).resolve().parents[2] / "engine" / "config" / "v1.0.0"
+    engine_bridge.get_engine_config.cache_clear()
+    monkeypatch.setenv("APTUS_ENGINE_CONFIG_DIR", str(repo_config))
+    try:
+        assert engine_bridge.get_engine_config().version == "1.0.0"
+        assert "APTUS_ENGINE_CONFIG_DIR" in engine_bridge.describe_config_source()
+    finally:
+        engine_bridge.get_engine_config.cache_clear()

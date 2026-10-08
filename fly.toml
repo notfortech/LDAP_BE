@@ -1,0 +1,49 @@
+# Fly.io deployment for the Aptus backend.
+#
+# Two database URLs, deliberately:
+#   APTUS_DATABASE_URL            runtime, connects as aptus_app
+#   APTUS_MIGRATION_DATABASE_URL  release command, connects as aptus_owner
+#
+# aptus_app owns nothing, is not a superuser and has no BYPASSRLS, which
+# is what makes row-level security actually apply. Pointing the app at
+# the owner or a superuser silently disables tenant isolation, and the
+# application refuses to start if it detects that.
+
+app = "aptus-backend"
+primary_region = "syd"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[deploy]
+  # Runs once per deploy, before the new version takes traffic. Uses the
+  # owner URL because the app role has no DDL rights -- by design, so a
+  # compromised runtime connection cannot drop a policy.
+  release_command = "sh -c 'cd /srv/api && APTUS_DATABASE_URL=\"$APTUS_MIGRATION_DATABASE_URL\" alembic upgrade head'"
+
+[env]
+  APTUS_ENV = "production"
+  APTUS_ENGINE_CONFIG_DIR = "/srv/engine/config/v1.0.0"
+  APTUS_SESSION_TTL_HOURS = "12"
+  APTUS_VERIFICATION_TTL_HOURS = "48"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "suspend"
+  auto_start_machines = true
+  # Never scale to zero: a cold start on a demo is a bad first
+  # impression, and one machine at this size costs very little.
+  min_machines_running = 1
+
+  [[http_service.checks]]
+    # Liveness only. /ready touches the database, and a database blip
+    # should not take the process out of rotation on its own.
+    path = "/health"
+    interval = "15s"
+    timeout = "3s"
+    grace_period = "10s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

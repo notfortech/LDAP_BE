@@ -55,6 +55,12 @@ jobs:
 
       # Models and migrations must not drift. An autogenerate run that
       # produces operations means a model changed without a migration.
+      # Installs non-editable and boots the app from outside the
+      # checkout. Three deployment-only defects reached main because an
+      # editable install resolves paths the real one does not.
+      - name: Packaged install smoke test
+        run: ../scripts/smoke-packaged.sh postgresql+psycopg://aptus_app:apppw@localhost:5432/aptus
+
       # Checked against PostgreSQL, not SQLite: production runs on
       # PostgreSQL, and only PostgreSQL has the constraints and policies
       # the migrations create.

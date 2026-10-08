@@ -25,5 +25,11 @@ postgres = ["psycopg[binary]>=3.1"]
 [tool.setuptools.packages.find]
 where = ["src"]
 
+# The item bank is package data. Without this it is present in a source
+# checkout and absent from an installed deployment, which fails only
+# once a candidate opens an assessment.
+[tool.setuptools.package-data]
+aptus_api = ["data/*.json"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
