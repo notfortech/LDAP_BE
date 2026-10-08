@@ -43,7 +43,7 @@ def create_app(settings: Settings | None = None, email_adapter=None) -> FastAPI:
             "for a closed pilot where signup is not publicly reachable."
         )
 
-    db.configure(settings.database_url)
+    db.configure(settings.database_url, transaction_pooler=settings.transaction_pooler)
 
     app = FastAPI(
         title="Aptus API",

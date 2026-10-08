@@ -68,3 +68,75 @@ def test_cors_rejects_an_unlisted_origin(client):
 def test_health_needs_no_database_but_ready_reports_it(client):
     assert client.get("/health").json() == {"status": "ok"}
     assert client.get("/ready").json()["status"] == "ready"
+
+
+# --- Transaction-pooler compatibility -------------------------------------
+#
+# A free-tier Postgres almost always sits behind a transaction pooler.
+# Getting this wrong does not fail at startup; it fails later with
+# "prepared statement _pg3_0 already exists", which is an unpleasant way
+# to discover it.
+
+import pytest
+from aptus_api.db import looks_like_transaction_pooler
+from aptus_api.settings import load_settings
+
+
+@pytest.mark.parametrize("url,pooled", [
+    # Supabase transaction mode.
+    ("postgresql+psycopg://u:p@aws-0-ap-southeast-2.pooler.supabase.com:6543/postgres", True),
+    # Supabase session mode: prepared statements do work here, but the
+    # host is a pooler and treating it as one is the safe default.
+    ("postgresql+psycopg://u:p@aws-0-ap-southeast-2.pooler.supabase.com:5432/postgres", True),
+    # Supabase direct connection is a real Postgres backend.
+    ("postgresql+psycopg://u:p@db.abcdefgh.supabase.co:5432/postgres", False),
+    ("postgresql+psycopg://u:p@mydb.postgres.database.azure.com:5432/aptus", False),
+    ("postgresql+psycopg://u:p@localhost:5432/aptus", False),
+    ("sqlite:///./x.db", False),
+])
+def test_pooler_detection(url, pooled):
+    assert looks_like_transaction_pooler(url) is pooled
+
+
+def test_malformed_url_does_not_raise():
+    """Detection runs before the engine exists, so it must never be the
+    thing that breaks startup."""
+    assert looks_like_transaction_pooler("not a url at all") is False
+
+
+def test_pooler_setting_is_tri_state():
+    base = {"APTUS_ENV": "development"}
+    assert load_settings(base).transaction_pooler is None, "unset must mean auto-detect"
+    assert load_settings({**base, "APTUS_DB_TRANSACTION_POOLER": "true"}).transaction_pooler is True
+    assert load_settings({**base, "APTUS_DB_TRANSACTION_POOLER": "false"}).transaction_pooler is False
+
+
+def test_pooled_engine_disables_prepared_statements_and_client_pooling(monkeypatch):
+    """The two settings that matter, asserted on what is actually passed
+    to create_engine rather than on the detection alone."""
+    from sqlalchemy.pool import NullPool
+
+    from aptus_api import db as db_module
+
+    captured = {}
+
+    def fake_create_engine(url, **kwargs):
+        captured.update(kwargs)
+        class _Stub:
+            class dialect: name = "postgresql"
+        return _Stub()
+
+    monkeypatch.setattr(db_module, "create_engine", fake_create_engine)
+    monkeypatch.setattr(db_module, "sessionmaker", lambda **kw: object())
+    monkeypatch.setattr(db_module, "_install_tenant_listener", lambda: None)
+
+    db_module.configure(
+        "postgresql+psycopg://u:p@aws-0-ap-southeast-2.pooler.supabase.com:6543/postgres"
+    )
+    assert captured["connect_args"]["prepare_threshold"] is None
+    assert captured["poolclass"] is NullPool
+
+    captured.clear()
+    db_module.configure("postgresql+psycopg://u:p@mydb.postgres.database.azure.com:5432/aptus")
+    assert "prepare_threshold" not in captured["connect_args"]
+    assert "poolclass" not in captured

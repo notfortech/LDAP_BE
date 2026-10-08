@@ -46,6 +46,11 @@ class Settings:
     database_url: str
     allowed_origins: tuple[str, ...]
 
+    # None means "work it out from the database URL". Set explicitly
+    # when the host does not look like a pooler but behaves as one, or
+    # the reverse.
+    transaction_pooler: bool | None = None
+
     require_email_verification: bool = True
     session_ttl_hours: int = 12
     verification_ttl_hours: int = 48
@@ -132,6 +137,10 @@ def load_settings(env: dict | None = None) -> Settings:
         secret_key=secret_key,
         database_url=database_url,
         allowed_origins=origins,
+        transaction_pooler=(
+            None if not (env.get("APTUS_DB_TRANSACTION_POOLER") or "").strip()
+            else _as_bool(env.get("APTUS_DB_TRANSACTION_POOLER"), False)
+        ),
         require_email_verification=_as_bool(
             env.get("APTUS_REQUIRE_EMAIL_VERIFICATION"), True
         ),
