@@ -51,8 +51,10 @@ pytest
 | Authentication hardening | Built — fail-closed config, opaque sessions, scrypt |
 | Database migrations | Built — Alembic, drift-checked in CI |
 | Cross-tenant isolation (application layer) | Built — release gate in CI |
+| Assessment-to-pathway flow | Built — invite, assess, score, passport, pathway |
+| Reference library (global + org fork, versioned) | Built — model and resolver |
 | Row-level security (database layer) | Not started |
-| Candidate roster and assessment endpoints | Not started |
+| Colleague invitation | Not started |
 
 The backlog driving the remaining work is the backend story set: an
 eight-story MVP covering the organisation model, self-serve signup, the

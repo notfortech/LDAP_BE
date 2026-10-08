@@ -5,7 +5,10 @@ import pytest
 from fastapi.testclient import TestClient
 
 SRC = pathlib.Path(__file__).resolve().parent.parent / "src"
+ENGINE_SRC = pathlib.Path(__file__).resolve().parents[2] / "engine" / "src"
 sys.path.insert(0, str(SRC))
+if ENGINE_SRC.exists():
+    sys.path.insert(0, str(ENGINE_SRC))
 
 from aptus_api import db as db_module  # noqa: E402
 from aptus_api.emails import LoggingEmailAdapter  # noqa: E402

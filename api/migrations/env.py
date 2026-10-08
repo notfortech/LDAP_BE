@@ -13,6 +13,9 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
+_engine_src = Path(__file__).resolve().parents[2] / "engine" / "src"
+if _engine_src.exists():
+    sys.path.insert(0, str(_engine_src))
 
 from aptus_api.db import Base  # noqa: E402
 from aptus_api import models  # noqa: F401,E402  (import registers the tables)

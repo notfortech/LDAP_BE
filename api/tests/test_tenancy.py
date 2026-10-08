@@ -17,8 +17,12 @@ from conftest import register
 # _route_is_covered below, which is the point.
 ORG_SCOPED = [
     ("GET", "/orgs/{organisation_id}"),
+    ("GET", "/orgs/{organisation_id}/constructs"),
     ("GET", "/orgs/{organisation_id}/candidates"),
     ("POST", "/orgs/{organisation_id}/candidates"),
+    ("GET", "/orgs/{organisation_id}/candidates/{candidate_id}"),
+    ("PUT", "/orgs/{organisation_id}/candidates/{candidate_id}/assignments"),
+    ("GET", "/orgs/{organisation_id}/candidates/{candidate_id}/pathway"),
 ]
 
 
@@ -48,16 +52,58 @@ def two_tenants(client, email):
     alice, alice_org = register(client, email, email="alice@north.edu.au", org="North TAFE")
     bob, bob_org = register(client, email, email="bob@south.edu.au", org="South TAFE")
     assert alice_org != bob_org
-    return {"alice": alice, "alice_org": alice_org, "bob": bob, "bob_org": bob_org}
+
+    def add_candidate(headers, org_id, address):
+        r = client.post(f"/orgs/{org_id}/candidates", headers=headers,
+                        json={"email": address})
+        assert r.status_code == 201, r.text
+        return r.json()["id"]
+
+    return {
+        "alice": alice, "alice_org": alice_org,
+        "alice_candidate": add_candidate(alice, alice_org, "learner@north.edu.au"),
+        "bob": bob, "bob_org": bob_org,
+        "bob_candidate": add_candidate(bob, bob_org, "learner@south.edu.au"),
+    }
+
+
+# A minimal valid body per route, so a 422 never masks a missing 404.
+BODIES = {
+    ("PUT", "/orgs/{organisation_id}/candidates/{candidate_id}/assignments"):
+        {"construct_ids": ["SK_ETHICS"]},
+    ("POST", "/orgs/{organisation_id}/candidates"): {"email": "new@example.edu.au"},
+}
+
+
+def _fill(template, org_id, candidate_id):
+    return template.format(organisation_id=org_id, candidate_id=candidate_id)
 
 
 @pytest.mark.parametrize("method,template", ORG_SCOPED)
 def test_other_tenants_organisation_is_not_reachable(client, two_tenants, method, template):
-    path = template.format(organisation_id=two_tenants["bob_org"])
-    response = client.request(method, path, headers=two_tenants["alice"])
+    """Alice names Bob's organisation and Bob's candidate. Both must 404."""
+    path = _fill(template, two_tenants["bob_org"], two_tenants["bob_candidate"])
+    response = client.request(method, path, headers=two_tenants["alice"],
+                              json=BODIES.get((method, template)))
     assert response.status_code == 404, (
         f"{method} {path} returned {response.status_code} to a non-member. "
         "Cross-tenant access is a release-blocking defect."
+    )
+
+
+@pytest.mark.parametrize("method,template", [
+    (m, t) for m, t in ORG_SCOPED if "{candidate_id}" in t
+])
+def test_other_tenants_candidate_is_not_reachable_via_own_org(client, two_tenants, method, template):
+    """The subtler attack: Alice uses her OWN organisation id, which she
+    is entitled to, and Bob's candidate id. The candidate lookup must be
+    filtered by organisation, not merely checked after the fact."""
+    path = _fill(template, two_tenants["alice_org"], two_tenants["bob_candidate"])
+    response = client.request(method, path, headers=two_tenants["alice"],
+                              json=BODIES.get((method, template)))
+    assert response.status_code == 404, (
+        f"{method} {path} leaked another tenant's candidate through the "
+        "caller's own organisation."
     )
 
 
@@ -65,14 +111,20 @@ def test_other_tenants_organisation_is_not_reachable(client, two_tenants, method
 def test_own_organisation_is_reachable(client, two_tenants, method, template):
     """The negative tests above would also pass if every route were
     broken, so prove the same calls work for the rightful member."""
-    path = template.format(organisation_id=two_tenants["alice_org"])
-    response = client.request(method, path, headers=two_tenants["alice"])
-    assert response.status_code == 200, response.text
+    body = BODIES.get((method, template))
+    if (method, template) == ("POST", "/orgs/{organisation_id}/candidates"):
+        body = {"email": "second@north.edu.au"}
+    path = _fill(template, two_tenants["alice_org"], two_tenants["alice_candidate"])
+    response = client.request(method, path, headers=two_tenants["alice"], json=body)
+    # 409 on the pathway route means "no formal attempt yet", which is a
+    # correct authorised answer -- the point here is that access is not
+    # refused.
+    assert response.status_code in (200, 201, 409), response.text
 
 
 @pytest.mark.parametrize("method,template", ORG_SCOPED)
 def test_unauthenticated_access_is_rejected(client, two_tenants, method, template):
-    path = template.format(organisation_id=two_tenants["alice_org"])
+    path = _fill(template, two_tenants["alice_org"], two_tenants["alice_candidate"])
     assert client.request(method, path).status_code == 401
 
 

@@ -1,0 +1,361 @@
+{
+  "sets": {
+    "quick": {
+      "title": "Quick Practice",
+      "description": "Five short situational-judgement questions across five core capabilities. Doesn't count toward your formal skill passport.",
+      "time_limit_minutes": null,
+      "question_ids": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5"
+      ]
+    },
+    "full": {
+      "title": "Full Capability Assessment",
+      "description": "A comprehensive, timed assessment covering all twelve capability domains. Counts toward your formal skill passport.",
+      "time_limit_minutes": 40,
+      "question_ids": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "fq1",
+        "fq2",
+        "fq3",
+        "fq4",
+        "fq5",
+        "fq6",
+        "fq7",
+        "fq8",
+        "fq9",
+        "fq10",
+        "fq11",
+        "fq12",
+        "fq13",
+        "fq14",
+        "fq15",
+        "fq16",
+        "fq17",
+        "fq18",
+        "fq19"
+      ]
+    }
+  },
+  "items": [
+    {
+      "question_id": "q1",
+      "skill_id": "SK_ACCOUNTABILITY",
+      "situation_title": "A missed handover",
+      "background": "You were meant to hand a client file to a colleague before end of day, but you forgot. They find out from the client the next morning.",
+      "text": "What do you do first?",
+      "options": {
+        "A": "Tell your colleague and the client directly what happened, and fix it immediately.",
+        "B": "Apologise to your colleague, then quietly finish the handover.",
+        "C": "Wait to see if your colleague raises it before saying anything.",
+        "D": "Explain that you were busy with other priorities."
+      }
+    },
+    {
+      "question_id": "q2",
+      "skill_id": "SK_DECISION_MAKING",
+      "situation_title": "Two urgent requests",
+      "background": "Two people ask for your help at the same time, both say it's urgent, and you can only do one before your next commitment.",
+      "text": "How do you decide what to do?",
+      "options": {
+        "A": "Quickly ask both what the actual deadline and impact is, then choose based on that.",
+        "B": "Help whoever asked first.",
+        "C": "Help whoever seems more senior or important.",
+        "D": "Try to do a bit of both and hope it's enough."
+      }
+    },
+    {
+      "question_id": "q3",
+      "skill_id": "SK_COMMUNICATION",
+      "situation_title": "Explaining a delay",
+      "background": "A project you're responsible for will be a week late. You need to tell the person relying on it.",
+      "text": "What does your message focus on?",
+      "options": {
+        "A": "The reason for the delay, the new date, and what you're doing so it doesn't happen again.",
+        "B": "Just the new date, to keep it brief.",
+        "C": "A general apology without specifics.",
+        "D": "Waiting until they ask before saying anything."
+      }
+    },
+    {
+      "question_id": "q4",
+      "skill_id": "SK_COLLABORATION",
+      "situation_title": "Disagreement in a group task",
+      "background": "You're working on a group task and disagree with the approach a teammate wants to take.",
+      "text": "What's your first move?",
+      "options": {
+        "A": "Raise your concern directly with them and ask to talk through both approaches.",
+        "B": "Go along with it to avoid conflict.",
+        "C": "Mention it to another teammate first to see if they agree.",
+        "D": "Do it your own way without saying anything."
+      }
+    },
+    {
+      "question_id": "q5",
+      "skill_id": "SK_CRITICAL_THINKING",
+      "situation_title": "A surprising result",
+      "background": "A report shows a result that doesn't match what you expected, and a decision is waiting on it.",
+      "text": "What do you do before acting on the report?",
+      "options": {
+        "A": "Check the underlying data and assumptions before treating it as fact.",
+        "B": "Assume the report is right since it's already been produced.",
+        "C": "Ask someone else to double-check it instead of you.",
+        "D": "Go with your original expectation instead."
+      }
+    },
+    {
+      "question_id": "fq1",
+      "skill_id": "SK_ADAPTABILITY",
+      "situation_title": "A change of plan",
+      "background": "You'd prepared for a group presentation, but the format changes to something different the night before.",
+      "text": "What do you do?",
+      "options": {
+        "A": "Recheck what's actually required now and adjust your prep to fit the new format.",
+        "B": "Present largely what you prepared and hope it still fits.",
+        "C": "Tell the group you're not ready and ask to go last.",
+        "D": "Feel frustrated and put in minimal extra effort since it changed at the last minute."
+      }
+    },
+    {
+      "question_id": "fq2",
+      "skill_id": "SK_ADAPTABILITY",
+      "situation_title": "A repeated setback",
+      "background": "You've failed the same practical task twice despite following the instructions you were given.",
+      "text": "What's your next step?",
+      "options": {
+        "A": "Ask someone experienced to watch you attempt it and point out what you're missing.",
+        "B": "Try again exactly the same way, hoping it works this time.",
+        "C": "Avoid the task and focus on things you're already good at.",
+        "D": "Decide it's not for you and stop trying."
+      }
+    },
+    {
+      "question_id": "fq3",
+      "skill_id": "SK_DIGITAL",
+      "situation_title": "An unfamiliar tool",
+      "background": "You're asked to complete a task using software or an app you've never used before, with a deadline today.",
+      "text": "What do you do first?",
+      "options": {
+        "A": "Spend a few minutes exploring its basic functions or checking a help guide before starting.",
+        "B": "Ask someone else to do it for you instead.",
+        "C": "Start clicking around and hope you figure it out as you go.",
+        "D": "Avoid the task and say you can't do it because you don't know the tool."
+      }
+    },
+    {
+      "question_id": "fq4",
+      "skill_id": "SK_DIGITAL",
+      "situation_title": "Information from an unknown source",
+      "background": "You find information online that would support an assignment or task, but you're not sure how reliable the source is.",
+      "text": "What do you do before using it?",
+      "options": {
+        "A": "Check the source and cross-reference it against at least one other reliable source.",
+        "B": "Use it since it was the first result that looked relevant.",
+        "C": "Use it but mention you're not sure it's accurate.",
+        "D": "Use it without checking, since it's easier."
+      }
+    },
+    {
+      "question_id": "fq5",
+      "skill_id": "SK_PLANNING",
+      "situation_title": "A big task, a tight deadline",
+      "background": "You're given a task with several steps and two weeks to finish it.",
+      "text": "What's your first move?",
+      "options": {
+        "A": "Break it into steps, estimate how long each will take, and schedule them across the two weeks.",
+        "B": "Start immediately on the first thing that comes to mind.",
+        "C": "Wait until you have a clearer picture before starting anything.",
+        "D": "Leave it until closer to the deadline, since two weeks feels like plenty of time."
+      }
+    },
+    {
+      "question_id": "fq6",
+      "skill_id": "SK_PLANNING",
+      "situation_title": "Competing deadlines",
+      "background": "You realise two things you're responsible for are due on the same day, and you only noticed a few days out.",
+      "text": "What do you do?",
+      "options": {
+        "A": "Look at both immediately, work out what's realistic, and flag early if one might slip.",
+        "B": "Focus only on whichever one you personally find more interesting.",
+        "C": "Start both at once without a clear plan for either.",
+        "D": "Hope you can finish both without changing how you're currently working."
+      }
+    },
+    {
+      "question_id": "fq7",
+      "skill_id": "SK_INITIATIVE",
+      "situation_title": "A better way",
+      "background": "While doing a repetitive task, you notice a way it could be done faster or better than the way you were shown.",
+      "text": "What do you do?",
+      "options": {
+        "A": "Try it and, once you've confirmed it works, share it with whoever else does the task.",
+        "B": "Keep using the better way yourself, but don't mention it to anyone.",
+        "C": "Keep doing it the original way since that's what you were shown.",
+        "D": "Mention it once in passing but don't follow up either way."
+      }
+    },
+    {
+      "question_id": "fq8",
+      "skill_id": "SK_INITIATIVE",
+      "situation_title": "An open gap",
+      "background": "You notice something that needs doing but nobody has been formally assigned to it.",
+      "text": "What's your instinct?",
+      "options": {
+        "A": "Raise it and offer to take it on, or find out who should.",
+        "B": "Assume someone else will notice and deal with it.",
+        "C": "Mention it to a friend but not to anyone who could act on it.",
+        "D": "Ignore it since it's not your job."
+      }
+    },
+    {
+      "question_id": "fq9",
+      "skill_id": "SK_ETHICS",
+      "situation_title": "An easy shortcut",
+      "background": "You could take credit for work a group member did, or claim you completed something you didn't finish, and it's unlikely anyone would find out.",
+      "text": "What do you do?",
+      "options": {
+        "A": "Represent the work accurately, including what you didn't finish or didn't do yourself.",
+        "B": "Let the ambiguity stand without correcting it, but don't actively lie if asked.",
+        "C": "Imply you did more than you did if it's not directly asked.",
+        "D": "Take the credit since it's unlikely to be checked."
+      }
+    },
+    {
+      "question_id": "fq10",
+      "skill_id": "SK_ETHICS",
+      "situation_title": "Noticing something wrong",
+      "background": "You notice someone has made an honest but significant error that could affect others, and pointing it out might be awkward.",
+      "text": "What do you do?",
+      "options": {
+        "A": "Raise it directly and privately with the person, focused on fixing it.",
+        "B": "Mention it to someone else and let them decide whether to raise it.",
+        "C": "Say nothing unless it's specifically asked about.",
+        "D": "Say nothing, since it's not your responsibility."
+      }
+    },
+    {
+      "question_id": "fq11",
+      "skill_id": "SK_NUMERACY",
+      "situation_title": "A number that matters",
+      "background": "You're comparing two options and one claims to be \"50% faster\" than the other, based on a small, informal test.",
+      "text": "How do you treat that claim?",
+      "options": {
+        "A": "Treat it as a rough indication, and check what it was actually measured against before relying on it.",
+        "B": "Accept it as accurate, since it's stated as a specific number.",
+        "C": "Ignore the number entirely and decide on gut feeling instead.",
+        "D": "Repeat the claim to others without mentioning it might be rough."
+      }
+    },
+    {
+      "question_id": "fq12",
+      "skill_id": "SK_NUMERACY",
+      "situation_title": "Reading a simple chart",
+      "background": "You're shown a chart with two trend lines that cross over partway through, and asked which option has performed better recently.",
+      "text": "How do you answer?",
+      "options": {
+        "A": "Focus on the recent section specifically, since \"recently\" is what was asked, not the whole chart.",
+        "B": "Answer based on which line is higher on average across the whole chart.",
+        "C": "Guess based on which line looks bigger overall.",
+        "D": "Say you can't tell anything from a chart."
+      }
+    },
+    {
+      "question_id": "fq13",
+      "skill_id": "SK_CAREER",
+      "situation_title": "Unsure what's next",
+      "background": "You're not sure what your next step should be after your current course, job, or stage of study.",
+      "text": "What do you do?",
+      "options": {
+        "A": "Seek out information and advice \u2014 from a mentor, careers service, or people already doing it \u2014 and compare a few real options.",
+        "B": "Wait until someone tells you what you should do next.",
+        "C": "Pick the first option that comes up without comparing it to anything else.",
+        "D": "Avoid thinking about it until you're forced to decide."
+      }
+    },
+    {
+      "question_id": "fq14",
+      "skill_id": "SK_CAREER",
+      "situation_title": "Feedback you didn't expect",
+      "background": "You receive feedback on your work or performance that's more critical than you expected.",
+      "text": "What's your first reaction?",
+      "options": {
+        "A": "Ask a clarifying question so you understand specifically what to do differently.",
+        "B": "Accept it politely but don't follow up on what it actually means for you.",
+        "C": "Feel discouraged and avoid the topic afterwards.",
+        "D": "Dismiss it as unfair without considering it."
+      }
+    },
+    {
+      "question_id": "fq15",
+      "skill_id": "SK_ACCOUNTABILITY",
+      "situation_title": "Owning a group mistake",
+      "background": "A project you contributed to as part of a group fails to meet its target, partly due to a mistake you made.",
+      "text": "How do you respond when the group discusses what happened?",
+      "options": {
+        "A": "Name your part in it clearly, without minimising it or blaming others for your share.",
+        "B": "Acknowledge it only if someone else brings it up first.",
+        "C": "Focus mainly on what other people got wrong.",
+        "D": "Stay quiet and hope it isn't traced back to you."
+      }
+    },
+    {
+      "question_id": "fq16",
+      "skill_id": "SK_DECISION_MAKING",
+      "situation_title": "Deciding with incomplete information",
+      "background": "You need to make a decision today, but you don't have all the information you'd like, and getting it would take longer than you have.",
+      "text": "What do you do?",
+      "options": {
+        "A": "Decide based on the best available information, and note the assumption you're making.",
+        "B": "Delay the decision past the deadline until you have everything.",
+        "C": "Ask someone else to make the call instead.",
+        "D": "Pick randomly since you don't have enough information anyway."
+      }
+    },
+    {
+      "question_id": "fq17",
+      "skill_id": "SK_COMMUNICATION",
+      "situation_title": "Explaining something technical",
+      "background": "You need to explain a decision or a result to someone who doesn't have the same background knowledge as you.",
+      "text": "How do you approach it?",
+      "options": {
+        "A": "Explain it in plain terms first, then add detail if they want it.",
+        "B": "Explain it exactly as you'd explain it to a peer with the same background.",
+        "C": "Give a very short answer and let them ask if they need more.",
+        "D": "Avoid the topic since it would take too long to explain properly."
+      }
+    },
+    {
+      "question_id": "fq18",
+      "skill_id": "SK_COLLABORATION",
+      "situation_title": "A teammate who isn't contributing",
+      "background": "You're part of a small group task, and one person hasn't contributed anything so far, with the deadline approaching.",
+      "text": "What do you do?",
+      "options": {
+        "A": "Check in with them directly to understand what's going on and agree on what they'll do.",
+        "B": "Quietly do their share yourself so the group isn't affected.",
+        "C": "Complain about them to the rest of the group without talking to them.",
+        "D": "Say nothing and let the group's result suffer."
+      }
+    },
+    {
+      "question_id": "fq19",
+      "skill_id": "SK_CRITICAL_THINKING",
+      "situation_title": "Two conflicting opinions",
+      "background": "Two people you trust give you conflicting advice about the same decision.",
+      "text": "What do you do?",
+      "options": {
+        "A": "Ask each of them what their advice is based on, then weigh the reasoning, not just who said it.",
+        "B": "Go with whoever you spoke to most recently.",
+        "C": "Go with whoever is more senior or experienced by default.",
+        "D": "Avoid deciding and hope the situation resolves itself."
+      }
+    }
+  ]
+}

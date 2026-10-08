@@ -14,7 +14,7 @@ from . import db
 from .emails import LoggingEmailAdapter, UnconfiguredEmailAdapter
 from .middleware import SecurityHeadersMiddleware
 from .ratelimit import RateLimiter
-from .routers import auth, orgs
+from .routers import assessments, auth, orgs
 from .settings import Settings, describe, load_settings
 
 logger = logging.getLogger("aptus.api")
@@ -53,6 +53,7 @@ def create_app(settings: Settings | None = None, email_adapter=None) -> FastAPI:
 
     app.include_router(auth.router)
     app.include_router(orgs.router)
+    app.include_router(assessments.router)
 
     @app.get("/health", tags=["ops"])
     def health():

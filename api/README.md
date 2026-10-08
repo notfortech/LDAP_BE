@@ -74,6 +74,36 @@ and a route walk can silently find nothing. It asserts discovery is
 non-empty for the same reason: a suite that passes because it tested
 zero endpoints is worse than no suite.
 
+## The assessment-to-pathway flow
+
+```
+admin invites candidate      POST /orgs/{org}/candidates      -> access token, once
+admin assigns constructs     PUT  .../assignments             -> narrows the item set
+candidate fetches items      GET  /assessment/full            -> candidate token
+candidate submits            POST /assessment/full/submit     -> engine scores it
+admin reads passport         GET  /orgs/{org}/candidates/{id} -> longitudinal record
+admin generates pathway      GET  .../pathway                 -> real units of competency
+```
+
+Four things this flow guarantees:
+
+- **Candidates are not users.** They hold no password and cannot sign
+  in. A candidate token grants access to exactly one assessment —
+  their own — and carries no organisation scope a caller can widen.
+- **Responses are filtered to the items actually served.** A candidate
+  assigned two constructs cannot be scored on twelve by submitting
+  answers they were never shown.
+- **Every attempt records the engine configuration digest** that scored
+  it, so a result stays reproducible after the engine moves on.
+- **Practice never reaches the passport**, and never produces a
+  pathway. A document handed to a learner comes from the assessment
+  that counts.
+
+The Recommended Pathway resolves an organisation's forked reference
+entries **in place of** the global defaults they diverged from, rather
+than alongside them, and reports unverified mappings and constructs with
+no mapping rather than hiding either.
+
 ## Known limitations
 
 - **Rate limiting is in-process.** Across several API processes each

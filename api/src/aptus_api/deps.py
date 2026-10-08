@@ -141,3 +141,61 @@ def require_operating_org(ctx: OrgContext = Depends(org_context)) -> OrgContext:
             "This organisation is not yet active. Verify the owner's email address first.",
         )
     return ctx
+
+
+def current_candidate(
+    credentials: HTTPAuthorizationCredentials | None = Depends(_bearer),
+    db: Session = Depends(get_session),
+):
+    """Resolve a candidate from their access token.
+
+    A separate principal from a user. A candidate token grants exactly
+    one thing: access to that candidate's own assessment. It carries no
+    organisation scope a caller can widen, because the organisation is
+    read from the candidate row, not from the request.
+    """
+    from .models import Candidate
+
+    if credentials is None:
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Authentication required")
+
+    candidate = db.execute(
+        select(Candidate).where(Candidate.access_token_hash == hash_token(credentials.credentials))
+    ).scalar_one_or_none()
+
+    if candidate is None or candidate.revoked_at is not None:
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid or expired access link")
+
+    if not candidate.organisation.can_operate:
+        raise HTTPException(
+            status.HTTP_403_FORBIDDEN,
+            "This assessment is not currently available. Contact your provider.",
+        )
+
+    return candidate
+
+
+def candidate_in_org(
+    candidate_id: int = Path(..., ge=1),
+    ctx: OrgContext = Depends(org_context),
+    db: Session = Depends(get_session),
+):
+    """A candidate, scoped to the organisation in the path.
+
+    The organisation filter is part of the query, not a check after it.
+    A candidate belonging to another tenant is simply not found, so the
+    404 is a property of the lookup rather than something a later branch
+    has to remember to enforce.
+    """
+    from .models import Candidate
+
+    candidate = db.execute(
+        select(Candidate).where(
+            Candidate.id == candidate_id,
+            Candidate.organisation_id == ctx.organisation.id,
+        )
+    ).scalar_one_or_none()
+
+    if candidate is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Candidate not found")
+    return candidate
