@@ -89,6 +89,7 @@ def submit_assessment(db: Session, candidate: Candidate, set_id: str,
     for construct in result.constructs:
         db.add(AttemptConstructScore(
             attempt_id=attempt.id,
+            organisation_id=attempt.organisation_id,
             construct_id=construct.construct_id,
             display_name=construct.display_name,
             normalised=construct.normalised,

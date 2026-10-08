@@ -14,6 +14,7 @@ from . import db
 from .emails import LoggingEmailAdapter, UnconfiguredEmailAdapter
 from .middleware import SecurityHeadersMiddleware
 from .ratelimit import RateLimiter
+from .rls import verify as verify_rls
 from .routers import assessments, auth, orgs
 from .settings import Settings, describe, load_settings
 
@@ -34,6 +35,10 @@ def create_app(settings: Settings | None = None, email_adapter=None) -> FastAPI:
         openapi_url=None if settings.is_production else "/openapi.json",
     )
     app.state.settings = settings
+    # Enabling policies is not the same as being protected by them: a
+    # superuser or BYPASSRLS connection silently ignores every one. In
+    # production that is a boot failure, not a warning.
+    app.state.rls = verify_rls(db.get_engine(), production=settings.is_production)
     app.state.limiter = RateLimiter(settings.rate_limits)
     app.state.email = email_adapter or (
         UnconfiguredEmailAdapter() if settings.is_production else LoggingEmailAdapter()
@@ -61,6 +66,26 @@ def create_app(settings: Settings | None = None, email_adapter=None) -> FastAPI:
         when the database is down and can distinguish 'process up' from
         'service ready'."""
         return {"status": "ok"}
+
+    @app.get("/rls", tags=["ops"])
+    def rls_status():
+        """Whether tenant isolation is actually enforced by the database.
+
+        Deliberately exposed: an institutional reviewer asking "how do
+        you know?" deserves an answer they can check themselves rather
+        than a claim in a document.
+        """
+        report = app.state.rls
+        return {
+            "enforced": report["enforced"],
+            "role": (report["role"] or {}).get("name"),
+            "tables": [
+                {"table": t["table_name"], "enabled": t["enabled"], "forced": t["forced"],
+                 "policies": t["policy_count"]}
+                for t in report["tables"]
+            ],
+            "problems": report["problems"],
+        }
 
     @app.get("/ready", tags=["ops"])
     def ready():

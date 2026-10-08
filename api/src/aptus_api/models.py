@@ -11,8 +11,8 @@ import enum
 from datetime import datetime, timezone
 
 from sqlalchemy import (
-    Boolean, DateTime, Enum, Float, ForeignKey, Index, Integer, String,
-    UniqueConstraint,
+    Boolean, DateTime, Enum, Float, ForeignKey, ForeignKeyConstraint, Index,
+    Integer, String, UniqueConstraint,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -195,6 +195,11 @@ class Candidate(Base):
     __tablename__ = "candidates"
     __table_args__ = (
         UniqueConstraint("organisation_id", "email", name="uq_candidate_org_email"),
+        # Target for the composite foreign keys on child tables. Those
+        # children denormalise organisation_id so row-level security can
+        # be a simple predicate on an indexed column of the same row;
+        # the composite key is what stops that copy from ever drifting.
+        UniqueConstraint("id", "organisation_id", name="uq_candidate_id_org"),
     )
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -230,12 +235,19 @@ class CandidateAssignment(Base):
     __tablename__ = "candidate_assignments"
     __table_args__ = (
         UniqueConstraint("candidate_id", "construct_id", name="uq_assignment_candidate_construct"),
+        ForeignKeyConstraint(
+            ["candidate_id", "organisation_id"],
+            ["candidates.id", "candidates.organisation_id"],
+            ondelete="CASCADE", name="fk_assignment_candidate_org",
+        ),
     )
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    candidate_id: Mapped[int] = mapped_column(
-        ForeignKey("candidates.id", ondelete="CASCADE"), nullable=False, index=True
-    )
+    candidate_id: Mapped[int] = mapped_column(nullable=False, index=True)
+    # Denormalised from the candidate so the row-level-security policy is
+    # a predicate on this row rather than a subquery. The composite
+    # foreign key above makes a mismatched value impossible to insert.
+    organisation_id: Mapped[int] = mapped_column(nullable=False, index=True)
     construct_id: Mapped[str] = mapped_column(String(64), nullable=False)
 
     candidate: Mapped[Candidate] = relationship(back_populates="assignments")
@@ -254,6 +266,7 @@ class AssessmentAttempt(Base):
     __tablename__ = "assessment_attempts"
     __table_args__ = (
         Index("ix_attempt_org_candidate", "organisation_id", "candidate_id"),
+        UniqueConstraint("id", "organisation_id", name="uq_attempt_id_org"),
     )
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -286,12 +299,17 @@ class AttemptConstructScore(Base):
     __tablename__ = "attempt_construct_scores"
     __table_args__ = (
         UniqueConstraint("attempt_id", "construct_id", name="uq_score_attempt_construct"),
+        ForeignKeyConstraint(
+            ["attempt_id", "organisation_id"],
+            ["assessment_attempts.id", "assessment_attempts.organisation_id"],
+            ondelete="CASCADE", name="fk_score_attempt_org",
+        ),
     )
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    attempt_id: Mapped[int] = mapped_column(
-        ForeignKey("assessment_attempts.id", ondelete="CASCADE"), nullable=False, index=True
-    )
+    attempt_id: Mapped[int] = mapped_column(nullable=False, index=True)
+    # Denormalised for the same reason as candidate_assignments above.
+    organisation_id: Mapped[int] = mapped_column(nullable=False, index=True)
     construct_id: Mapped[str] = mapped_column(String(64), nullable=False)
     display_name: Mapped[str] = mapped_column(String(120), nullable=False)
     normalised: Mapped[float] = mapped_column(Float, nullable=False)

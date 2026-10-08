@@ -8,6 +8,22 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    # Row-level security cannot be tested on SQLite, and testing tenant
+    # isolation on a database that does not enforce it is worse than not
+    # testing it at all.
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: aptus
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 2s --health-timeout 3s --health-retries 20
+
     defaults:
       run:
         working-directory: api
@@ -22,19 +38,28 @@ jobs:
         run: pip install -e ../engine
 
       - name: Install
-        run: pip install -e ".[dev]"
+        run: pip install -e ".[dev,postgres]"
+
+      - name: Prepare database, roles and policies
+        env:
+          PGPASSWORD: postgres
+        run: ../scripts/setup-db.sh localhost 5432 aptus
 
       # Includes the cross-tenant isolation suite, which is a release
       # gate: any endpoint that returns another tenant's data fails here.
       - name: Test
+        env:
+          APTUS_TEST_APP_DATABASE_URL: postgresql+psycopg://aptus_app:apppw@localhost:5432/aptus
+          APTUS_TEST_ADMIN_DATABASE_URL: postgresql+psycopg://aptus_owner:ownerpw@localhost:5432/aptus
         run: pytest -q
 
       # Models and migrations must not drift. An autogenerate run that
       # produces operations means a model changed without a migration.
+      # Checked against PostgreSQL, not SQLite: production runs on
+      # PostgreSQL, and only PostgreSQL has the constraints and policies
+      # the migrations create.
       - name: No un-migrated model changes
         env:
           APTUS_ENV: development
-          APTUS_DATABASE_URL: sqlite:///./ci-check.db
-        run: |
-          alembic upgrade head
-          alembic check
+          APTUS_DATABASE_URL: postgresql+psycopg://aptus_owner:ownerpw@localhost:5432/aptus
+        run: alembic check

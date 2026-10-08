@@ -53,7 +53,7 @@ pytest
 | Cross-tenant isolation (application layer) | Built — release gate in CI |
 | Assessment-to-pathway flow | Built — invite, assess, score, passport, pathway |
 | Reference library (global + org fork, versioned) | Built — model and resolver |
-| Row-level security (database layer) | Not started |
+| Row-level security (database layer) | Built — policies, posture guard, 13 tests on real PostgreSQL |
 | Colleague invitation | Not started |
 
 The backlog driving the remaining work is the backend story set: an

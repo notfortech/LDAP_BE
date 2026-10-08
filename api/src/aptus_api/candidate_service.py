@@ -90,7 +90,11 @@ def set_assignments(db: Session, candidate: Candidate, construct_ids: list[str],
         CandidateAssignment.candidate_id == candidate.id
     ).delete(synchronize_session=False)
     for construct_id in requested:
-        db.add(CandidateAssignment(candidate_id=candidate.id, construct_id=construct_id))
+        db.add(CandidateAssignment(
+            candidate_id=candidate.id,
+            organisation_id=candidate.organisation_id,
+            construct_id=construct_id,
+        ))
 
     audit(db, action="candidate.assignments_changed",
           organisation_id=candidate.organisation_id, actor_user_id=actor_user_id,

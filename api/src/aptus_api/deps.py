@@ -15,7 +15,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from .db import get_session
+from .db import get_session, set_tenant
 from .models import Membership, Organisation, Role, SessionToken, User
 from .security import hash_token
 
@@ -122,6 +122,11 @@ def org_context(
     if organisation is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Organisation not found")
 
+    # Membership is proven, so scope the connection. Everything the
+    # request touches from here is constrained by the database itself,
+    # not only by the WHERE clauses the application remembers to write.
+    set_tenant(db, organisation.id)
+
     return OrgContext(user=user, organisation=organisation, role=membership.role)
 
 
@@ -172,6 +177,7 @@ def current_candidate(
             "This assessment is not currently available. Contact your provider.",
         )
 
+    set_tenant(db, candidate.organisation_id)
     return candidate
 
 

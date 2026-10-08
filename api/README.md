@@ -104,15 +104,47 @@ entries **in place of** the global defaults they diverged from, rather
 than alongside them, and reports unverified mappings and constructs with
 no mapping rather than hiding either.
 
+## Row-level security
+
+Tenant isolation is enforced by PostgreSQL, not only by the WHERE
+clauses the application remembers to write. Policies on `candidates`,
+`candidate_assignments`, `assessment_attempts`,
+`attempt_construct_scores` and `training_references` compare
+`organisation_id` against a per-connection parameter the request sets
+once membership is proven.
+
+**Enabling RLS is not the same as being protected by it.** PostgreSQL
+lets three things bypass every policy silently, with no warning:
+
+- a superuser connection;
+- a role with `BYPASSRLS`;
+- the table owner, unless the table is set to `FORCE ROW LEVEL SECURITY`.
+
+All three fail open. The application therefore refuses to start in
+production if it detects any of them, and `GET /rls` reports the live
+posture so a reviewer can check rather than take the claim on trust.
+
+Run the app as `aptus_app`: not a superuser, no `BYPASSRLS`, owns
+nothing, and holds data rights only — so it cannot drop a policy.
+Migrations run as `aptus_owner`. `scripts/setup-db.sh` creates both.
+
+Two details worth knowing:
+
+- Policies compare against an `app_current_organisation()` accessor
+  rather than casting the parameter inline. A bare `::int` cast raises
+  on any non-numeric value, turning a tenancy question into a 500
+  instead of a clean denial.
+- Maintaining the shared global reference library needs its own path,
+  because `FORCE` applies to the owner too. A connection must set the
+  parameter to the literal `global`; a request serving a tenant has it
+  set to a number, so it can never reach a global row.
+
 ## Known limitations
 
 - **Rate limiting is in-process.** Across several API processes each
   holds its own counter, so the effective limit multiplies by process
   count. Acceptable at single-node appliance scale; a multi-node
   deployment needs a shared store.
-- **Tenant isolation is application-layer.** Row-level security in
-  PostgreSQL is the next step and is the precondition for any shared
-  managed tier.
 - **No email adapter ships.** Development logs the verification token.
   Production refuses to start a flow it cannot deliver, rather than
   dropping mail silently.
