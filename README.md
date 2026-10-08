@@ -32,6 +32,12 @@ These are load-bearing. Everything else is subordinate to them.
    behavioural signal. It is not a validated psychometric instrument and
    is never described as one. See `engine/EVIDENCE.md`.
 
+## Testing
+
+See **[TESTING.md](TESTING.md)** — automated suites, a narrated
+walkthrough (`./scripts/demo.sh`), how to verify row-level security
+yourself in psql, and an honest list of what is not covered.
+
 ## Getting started
 
 ```bash
