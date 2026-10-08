@@ -8,7 +8,8 @@ capability assessment engine and the service that exposes it.
 ```
 engine/     Deterministic scoring engine — pure Python, no dependencies,
             versioned configuration, generated evidence basis
-api/        FastAPI service (not yet built)
+api/        FastAPI service — self-serve organisations, sessions,
+            tenant-scoped access
 ```
 
 ## Principles
@@ -45,10 +46,13 @@ pytest
 |---|---|
 | Deterministic engine | Built — 25 tests, determinism gate in CI |
 | Evidence basis | Built — generated from configuration |
-| API service | Not started |
-| Organisations and membership | Not started |
-| Authentication hardening | Not started |
-| Database migrations | Not started |
+| API service | Built — self-serve signup, sessions, organisation scoping |
+| Organisations and membership | Built — organisation entity, owner/admin roles |
+| Authentication hardening | Built — fail-closed config, opaque sessions, scrypt |
+| Database migrations | Built — Alembic, drift-checked in CI |
+| Cross-tenant isolation (application layer) | Built — release gate in CI |
+| Row-level security (database layer) | Not started |
+| Candidate roster and assessment endpoints | Not started |
 
 The backlog driving the remaining work is the backend story set: an
 eight-story MVP covering the organisation model, self-serve signup, the

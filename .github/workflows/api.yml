@@ -1,0 +1,36 @@
+name: api
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -e ".[dev]"
+
+      # Includes the cross-tenant isolation suite, which is a release
+      # gate: any endpoint that returns another tenant's data fails here.
+      - name: Test
+        run: pytest -q
+
+      # Models and migrations must not drift. An autogenerate run that
+      # produces operations means a model changed without a migration.
+      - name: No un-migrated model changes
+        env:
+          APTUS_ENV: development
+          APTUS_DATABASE_URL: sqlite:///./ci-check.db
+        run: |
+          alembic upgrade head
+          alembic check
