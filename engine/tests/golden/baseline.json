@@ -1,0 +1,712 @@
+{
+  "cases": [
+    {
+      "expected": {
+        "config_digest": "d89f32209419e4d0fb08d9dc32f0c59104317e417e72c8f906eaa3eb064042c2",
+        "config_version": "1.0.0",
+        "constructs": [
+          {
+            "band": "Strong",
+            "construct_id": "SK_COMMUNICATION",
+            "contributing_signals": [
+              "SIG_COMMUNICATION_TRANSPARENCY"
+            ],
+            "display_name": "Communication & Expression",
+            "normalised": 1.0
+          },
+          {
+            "band": "Strong",
+            "construct_id": "SK_CRITICAL_THINKING",
+            "contributing_signals": [
+              "SIG_CRITICAL_VERIFICATION"
+            ],
+            "display_name": "Critical Thinking & Problem-Solving",
+            "normalised": 1.0
+          },
+          {
+            "band": "Strong",
+            "construct_id": "SK_DECISION_MAKING",
+            "contributing_signals": [
+              "SIG_DECISION_TRIAGE"
+            ],
+            "display_name": "Decision-Making & Judgement",
+            "normalised": 1.0
+          },
+          {
+            "band": "Strong",
+            "construct_id": "SK_COLLABORATION",
+            "contributing_signals": [
+              "SIG_COLLABORATION_DIRECTNESS"
+            ],
+            "display_name": "Collaboration & Teamwork",
+            "normalised": 1.0
+          },
+          {
+            "band": "Strong",
+            "construct_id": "SK_ACCOUNTABILITY",
+            "contributing_signals": [
+              "SIG_ACCOUNTABILITY_OWNERSHIP"
+            ],
+            "display_name": "Accountability & Reliability",
+            "normalised": 1.0
+          },
+          {
+            "band": "Strong",
+            "construct_id": "SK_ADAPTABILITY",
+            "contributing_signals": [
+              "SIG_ADAPTABILITY_RESPONSE"
+            ],
+            "display_name": "Adaptability & Resilience",
+            "normalised": 1.0
+          },
+          {
+            "band": "Strong",
+            "construct_id": "SK_DIGITAL",
+            "contributing_signals": [
+              "SIG_DIGITAL_TOOL_JUDGEMENT"
+            ],
+            "display_name": "Digital & Technology Capability",
+            "normalised": 1.0
+          },
+          {
+            "band": "Strong",
+            "construct_id": "SK_PLANNING",
+            "contributing_signals": [
+              "SIG_PLANNING_PRIORITISATION"
+            ],
+            "display_name": "Planning & Organisation",
+            "normalised": 1.0
+          },
+          {
+            "band": "Strong",
+            "construct_id": "SK_INITIATIVE",
+            "contributing_signals": [
+              "SIG_INITIATIVE_PROACTIVITY"
+            ],
+            "display_name": "Initiative & Creativity",
+            "normalised": 1.0
+          },
+          {
+            "band": "Strong",
+            "construct_id": "SK_ETHICS",
+            "contributing_signals": [
+              "SIG_ETHICS_INTEGRITY"
+            ],
+            "display_name": "Ethical & Professional Practice",
+            "normalised": 1.0
+          },
+          {
+            "band": "Strong",
+            "construct_id": "SK_NUMERACY",
+            "contributing_signals": [
+              "SIG_NUMERACY_INTERPRETATION"
+            ],
+            "display_name": "Numeracy & Data Literacy",
+            "normalised": 1.0
+          },
+          {
+            "band": "Strong",
+            "construct_id": "SK_CAREER",
+            "contributing_signals": [
+              "SIG_CAREER_DIRECTION"
+            ],
+            "display_name": "Career Self-Management & Navigation",
+            "normalised": 1.0
+          }
+        ],
+        "overall": {
+          "band": "Strong",
+          "normalised": 1.0
+        },
+        "signal_scores": {
+          "SIG_ACCOUNTABILITY_OWNERSHIP": 1.0,
+          "SIG_ADAPTABILITY_RESPONSE": 1.0,
+          "SIG_CAREER_DIRECTION": 1.0,
+          "SIG_COLLABORATION_DIRECTNESS": 1.0,
+          "SIG_COMMUNICATION_TRANSPARENCY": 1.0,
+          "SIG_CRITICAL_VERIFICATION": 1.0,
+          "SIG_DECISION_TRIAGE": 1.0,
+          "SIG_DIGITAL_TOOL_JUDGEMENT": 1.0,
+          "SIG_ETHICS_INTEGRITY": 1.0,
+          "SIG_INITIATIVE_PROACTIVITY": 1.0,
+          "SIG_NUMERACY_INTERPRETATION": 1.0,
+          "SIG_PLANNING_PRIORITISATION": 1.0
+        },
+        "unassessed": []
+      },
+      "name": "all_top",
+      "responses": {
+        "fq1": "A",
+        "fq10": "A",
+        "fq11": "A",
+        "fq12": "A",
+        "fq13": "A",
+        "fq14": "A",
+        "fq15": "A",
+        "fq16": "A",
+        "fq17": "A",
+        "fq18": "A",
+        "fq19": "A",
+        "fq2": "A",
+        "fq3": "A",
+        "fq4": "A",
+        "fq5": "A",
+        "fq6": "A",
+        "fq7": "A",
+        "fq8": "A",
+        "fq9": "A",
+        "q1": "A",
+        "q2": "A",
+        "q3": "A",
+        "q4": "A",
+        "q5": "A"
+      }
+    },
+    {
+      "expected": {
+        "config_digest": "d89f32209419e4d0fb08d9dc32f0c59104317e417e72c8f906eaa3eb064042c2",
+        "config_version": "1.0.0",
+        "constructs": [
+          {
+            "band": "Developing",
+            "construct_id": "SK_COMMUNICATION",
+            "contributing_signals": [
+              "SIG_COMMUNICATION_TRANSPARENCY"
+            ],
+            "display_name": "Communication & Expression",
+            "normalised": 0.25
+          },
+          {
+            "band": "Developing",
+            "construct_id": "SK_CRITICAL_THINKING",
+            "contributing_signals": [
+              "SIG_CRITICAL_VERIFICATION"
+            ],
+            "display_name": "Critical Thinking & Problem-Solving",
+            "normalised": 0.25
+          },
+          {
+            "band": "Developing",
+            "construct_id": "SK_DECISION_MAKING",
+            "contributing_signals": [
+              "SIG_DECISION_TRIAGE"
+            ],
+            "display_name": "Decision-Making & Judgement",
+            "normalised": 0.25
+          },
+          {
+            "band": "Developing",
+            "construct_id": "SK_COLLABORATION",
+            "contributing_signals": [
+              "SIG_COLLABORATION_DIRECTNESS"
+            ],
+            "display_name": "Collaboration & Teamwork",
+            "normalised": 0.25
+          },
+          {
+            "band": "Developing",
+            "construct_id": "SK_ACCOUNTABILITY",
+            "contributing_signals": [
+              "SIG_ACCOUNTABILITY_OWNERSHIP"
+            ],
+            "display_name": "Accountability & Reliability",
+            "normalised": 0.25
+          },
+          {
+            "band": "Developing",
+            "construct_id": "SK_ADAPTABILITY",
+            "contributing_signals": [
+              "SIG_ADAPTABILITY_RESPONSE"
+            ],
+            "display_name": "Adaptability & Resilience",
+            "normalised": 0.25
+          },
+          {
+            "band": "Developing",
+            "construct_id": "SK_DIGITAL",
+            "contributing_signals": [
+              "SIG_DIGITAL_TOOL_JUDGEMENT"
+            ],
+            "display_name": "Digital & Technology Capability",
+            "normalised": 0.25
+          },
+          {
+            "band": "Developing",
+            "construct_id": "SK_PLANNING",
+            "contributing_signals": [
+              "SIG_PLANNING_PRIORITISATION"
+            ],
+            "display_name": "Planning & Organisation",
+            "normalised": 0.25
+          },
+          {
+            "band": "Developing",
+            "construct_id": "SK_INITIATIVE",
+            "contributing_signals": [
+              "SIG_INITIATIVE_PROACTIVITY"
+            ],
+            "display_name": "Initiative & Creativity",
+            "normalised": 0.25
+          },
+          {
+            "band": "Developing",
+            "construct_id": "SK_ETHICS",
+            "contributing_signals": [
+              "SIG_ETHICS_INTEGRITY"
+            ],
+            "display_name": "Ethical & Professional Practice",
+            "normalised": 0.25
+          },
+          {
+            "band": "Developing",
+            "construct_id": "SK_NUMERACY",
+            "contributing_signals": [
+              "SIG_NUMERACY_INTERPRETATION"
+            ],
+            "display_name": "Numeracy & Data Literacy",
+            "normalised": 0.25
+          },
+          {
+            "band": "Developing",
+            "construct_id": "SK_CAREER",
+            "contributing_signals": [
+              "SIG_CAREER_DIRECTION"
+            ],
+            "display_name": "Career Self-Management & Navigation",
+            "normalised": 0.25
+          }
+        ],
+        "overall": {
+          "band": "Developing",
+          "normalised": 0.25
+        },
+        "signal_scores": {
+          "SIG_ACCOUNTABILITY_OWNERSHIP": 0.25,
+          "SIG_ADAPTABILITY_RESPONSE": 0.25,
+          "SIG_CAREER_DIRECTION": 0.25,
+          "SIG_COLLABORATION_DIRECTNESS": 0.25,
+          "SIG_COMMUNICATION_TRANSPARENCY": 0.25,
+          "SIG_CRITICAL_VERIFICATION": 0.25,
+          "SIG_DECISION_TRIAGE": 0.25,
+          "SIG_DIGITAL_TOOL_JUDGEMENT": 0.25,
+          "SIG_ETHICS_INTEGRITY": 0.25,
+          "SIG_INITIATIVE_PROACTIVITY": 0.25,
+          "SIG_NUMERACY_INTERPRETATION": 0.25,
+          "SIG_PLANNING_PRIORITISATION": 0.25
+        },
+        "unassessed": []
+      },
+      "name": "all_bottom",
+      "responses": {
+        "fq1": "D",
+        "fq10": "D",
+        "fq11": "D",
+        "fq12": "D",
+        "fq13": "D",
+        "fq14": "D",
+        "fq15": "D",
+        "fq16": "D",
+        "fq17": "D",
+        "fq18": "D",
+        "fq19": "D",
+        "fq2": "D",
+        "fq3": "D",
+        "fq4": "D",
+        "fq5": "D",
+        "fq6": "D",
+        "fq7": "D",
+        "fq8": "D",
+        "fq9": "D",
+        "q1": "D",
+        "q2": "D",
+        "q3": "D",
+        "q4": "D",
+        "q5": "D"
+      }
+    },
+    {
+      "expected": {
+        "config_digest": "d89f32209419e4d0fb08d9dc32f0c59104317e417e72c8f906eaa3eb064042c2",
+        "config_version": "1.0.0",
+        "constructs": [
+          {
+            "band": "Strong",
+            "construct_id": "SK_COMMUNICATION",
+            "contributing_signals": [
+              "SIG_COMMUNICATION_TRANSPARENCY"
+            ],
+            "display_name": "Communication & Expression",
+            "normalised": 0.875
+          },
+          {
+            "band": "Developing",
+            "construct_id": "SK_CRITICAL_THINKING",
+            "contributing_signals": [
+              "SIG_CRITICAL_VERIFICATION"
+            ],
+            "display_name": "Critical Thinking & Problem-Solving",
+            "normalised": 0.375
+          },
+          {
+            "band": "Strong",
+            "construct_id": "SK_DECISION_MAKING",
+            "contributing_signals": [
+              "SIG_DECISION_TRIAGE"
+            ],
+            "display_name": "Decision-Making & Judgement",
+            "normalised": 0.875
+          },
+          {
+            "band": "Developing",
+            "construct_id": "SK_COLLABORATION",
+            "contributing_signals": [
+              "SIG_COLLABORATION_DIRECTNESS"
+            ],
+            "display_name": "Collaboration & Teamwork",
+            "normalised": 0.375
+          },
+          {
+            "band": "Strong",
+            "construct_id": "SK_ACCOUNTABILITY",
+            "contributing_signals": [
+              "SIG_ACCOUNTABILITY_OWNERSHIP"
+            ],
+            "display_name": "Accountability & Reliability",
+            "normalised": 0.875
+          },
+          {
+            "band": "Developing",
+            "construct_id": "SK_ADAPTABILITY",
+            "contributing_signals": [
+              "SIG_ADAPTABILITY_RESPONSE"
+            ],
+            "display_name": "Adaptability & Resilience",
+            "normalised": 0.375
+          },
+          {
+            "band": "Developing",
+            "construct_id": "SK_DIGITAL",
+            "contributing_signals": [
+              "SIG_DIGITAL_TOOL_JUDGEMENT"
+            ],
+            "display_name": "Digital & Technology Capability",
+            "normalised": 0.375
+          },
+          {
+            "band": "Developing",
+            "construct_id": "SK_PLANNING",
+            "contributing_signals": [
+              "SIG_PLANNING_PRIORITISATION"
+            ],
+            "display_name": "Planning & Organisation",
+            "normalised": 0.375
+          },
+          {
+            "band": "Developing",
+            "construct_id": "SK_INITIATIVE",
+            "contributing_signals": [
+              "SIG_INITIATIVE_PROACTIVITY"
+            ],
+            "display_name": "Initiative & Creativity",
+            "normalised": 0.375
+          },
+          {
+            "band": "Strong",
+            "construct_id": "SK_ETHICS",
+            "contributing_signals": [
+              "SIG_ETHICS_INTEGRITY"
+            ],
+            "display_name": "Ethical & Professional Practice",
+            "normalised": 0.875
+          },
+          {
+            "band": "Strong",
+            "construct_id": "SK_NUMERACY",
+            "contributing_signals": [
+              "SIG_NUMERACY_INTERPRETATION"
+            ],
+            "display_name": "Numeracy & Data Literacy",
+            "normalised": 0.875
+          },
+          {
+            "band": "Strong",
+            "construct_id": "SK_CAREER",
+            "contributing_signals": [
+              "SIG_CAREER_DIRECTION"
+            ],
+            "display_name": "Career Self-Management & Navigation",
+            "normalised": 0.875
+          }
+        ],
+        "overall": {
+          "band": "Proficient",
+          "normalised": 0.625
+        },
+        "signal_scores": {
+          "SIG_ACCOUNTABILITY_OWNERSHIP": 0.875,
+          "SIG_ADAPTABILITY_RESPONSE": 0.375,
+          "SIG_CAREER_DIRECTION": 0.875,
+          "SIG_COLLABORATION_DIRECTNESS": 0.375,
+          "SIG_COMMUNICATION_TRANSPARENCY": 0.875,
+          "SIG_CRITICAL_VERIFICATION": 0.375,
+          "SIG_DECISION_TRIAGE": 0.875,
+          "SIG_DIGITAL_TOOL_JUDGEMENT": 0.375,
+          "SIG_ETHICS_INTEGRITY": 0.875,
+          "SIG_INITIATIVE_PROACTIVITY": 0.375,
+          "SIG_NUMERACY_INTERPRETATION": 0.875,
+          "SIG_PLANNING_PRIORITISATION": 0.375
+        },
+        "unassessed": []
+      },
+      "name": "mixed_cycle",
+      "responses": {
+        "fq1": "C",
+        "fq10": "B",
+        "fq11": "A",
+        "fq12": "B",
+        "fq13": "A",
+        "fq14": "B",
+        "fq15": "B",
+        "fq16": "B",
+        "fq17": "B",
+        "fq18": "D",
+        "fq19": "D",
+        "fq2": "D",
+        "fq3": "C",
+        "fq4": "D",
+        "fq5": "C",
+        "fq6": "D",
+        "fq7": "C",
+        "fq8": "D",
+        "fq9": "A",
+        "q1": "A",
+        "q2": "A",
+        "q3": "A",
+        "q4": "C",
+        "q5": "C"
+      }
+    },
+    {
+      "expected": {
+        "config_digest": "d89f32209419e4d0fb08d9dc32f0c59104317e417e72c8f906eaa3eb064042c2",
+        "config_version": "1.0.0",
+        "constructs": [
+          {
+            "band": "Strong",
+            "construct_id": "SK_ETHICS",
+            "contributing_signals": [
+              "SIG_ETHICS_INTEGRITY"
+            ],
+            "display_name": "Ethical & Professional Practice",
+            "normalised": 0.75
+          }
+        ],
+        "overall": {
+          "band": "Strong",
+          "normalised": 0.75
+        },
+        "signal_scores": {
+          "SIG_ETHICS_INTEGRITY": 0.75
+        },
+        "unassessed": [
+          "SK_COMMUNICATION",
+          "SK_CRITICAL_THINKING",
+          "SK_DECISION_MAKING",
+          "SK_COLLABORATION",
+          "SK_ACCOUNTABILITY",
+          "SK_ADAPTABILITY",
+          "SK_DIGITAL",
+          "SK_PLANNING",
+          "SK_INITIATIVE",
+          "SK_NUMERACY",
+          "SK_CAREER"
+        ]
+      },
+      "name": "single_construct",
+      "responses": {
+        "fq10": "B",
+        "fq9": "B"
+      }
+    },
+    {
+      "expected": {
+        "config_digest": "d89f32209419e4d0fb08d9dc32f0c59104317e417e72c8f906eaa3eb064042c2",
+        "config_version": "1.0.0",
+        "constructs": [
+          {
+            "band": "Proficient",
+            "construct_id": "SK_COMMUNICATION",
+            "contributing_signals": [
+              "SIG_COMMUNICATION_TRANSPARENCY"
+            ],
+            "display_name": "Communication & Expression",
+            "normalised": 0.5
+          },
+          {
+            "band": "Proficient",
+            "construct_id": "SK_CRITICAL_THINKING",
+            "contributing_signals": [
+              "SIG_CRITICAL_VERIFICATION"
+            ],
+            "display_name": "Critical Thinking & Problem-Solving",
+            "normalised": 0.5
+          },
+          {
+            "band": "Proficient",
+            "construct_id": "SK_DECISION_MAKING",
+            "contributing_signals": [
+              "SIG_DECISION_TRIAGE"
+            ],
+            "display_name": "Decision-Making & Judgement",
+            "normalised": 0.5
+          },
+          {
+            "band": "Proficient",
+            "construct_id": "SK_COLLABORATION",
+            "contributing_signals": [
+              "SIG_COLLABORATION_DIRECTNESS"
+            ],
+            "display_name": "Collaboration & Teamwork",
+            "normalised": 0.5
+          },
+          {
+            "band": "Proficient",
+            "construct_id": "SK_ACCOUNTABILITY",
+            "contributing_signals": [
+              "SIG_ACCOUNTABILITY_OWNERSHIP"
+            ],
+            "display_name": "Accountability & Reliability",
+            "normalised": 0.5
+          },
+          {
+            "band": "Proficient",
+            "construct_id": "SK_ADAPTABILITY",
+            "contributing_signals": [
+              "SIG_ADAPTABILITY_RESPONSE"
+            ],
+            "display_name": "Adaptability & Resilience",
+            "normalised": 0.5
+          },
+          {
+            "band": "Proficient",
+            "construct_id": "SK_DIGITAL",
+            "contributing_signals": [
+              "SIG_DIGITAL_TOOL_JUDGEMENT"
+            ],
+            "display_name": "Digital & Technology Capability",
+            "normalised": 0.5
+          },
+          {
+            "band": "Proficient",
+            "construct_id": "SK_PLANNING",
+            "contributing_signals": [
+              "SIG_PLANNING_PRIORITISATION"
+            ],
+            "display_name": "Planning & Organisation",
+            "normalised": 0.5
+          },
+          {
+            "band": "Proficient",
+            "construct_id": "SK_INITIATIVE",
+            "contributing_signals": [
+              "SIG_INITIATIVE_PROACTIVITY"
+            ],
+            "display_name": "Initiative & Creativity",
+            "normalised": 0.5
+          },
+          {
+            "band": "Proficient",
+            "construct_id": "SK_ETHICS",
+            "contributing_signals": [
+              "SIG_ETHICS_INTEGRITY"
+            ],
+            "display_name": "Ethical & Professional Practice",
+            "normalised": 0.5
+          },
+          {
+            "band": "Proficient",
+            "construct_id": "SK_NUMERACY",
+            "contributing_signals": [
+              "SIG_NUMERACY_INTERPRETATION"
+            ],
+            "display_name": "Numeracy & Data Literacy",
+            "normalised": 0.5
+          },
+          {
+            "band": "Proficient",
+            "construct_id": "SK_CAREER",
+            "contributing_signals": [
+              "SIG_CAREER_DIRECTION"
+            ],
+            "display_name": "Career Self-Management & Navigation",
+            "normalised": 0.5
+          }
+        ],
+        "overall": {
+          "band": "Proficient",
+          "normalised": 0.5
+        },
+        "signal_scores": {
+          "SIG_ACCOUNTABILITY_OWNERSHIP": 0.5,
+          "SIG_ADAPTABILITY_RESPONSE": 0.5,
+          "SIG_CAREER_DIRECTION": 0.5,
+          "SIG_COLLABORATION_DIRECTNESS": 0.5,
+          "SIG_COMMUNICATION_TRANSPARENCY": 0.5,
+          "SIG_CRITICAL_VERIFICATION": 0.5,
+          "SIG_DECISION_TRIAGE": 0.5,
+          "SIG_DIGITAL_TOOL_JUDGEMENT": 0.5,
+          "SIG_ETHICS_INTEGRITY": 0.5,
+          "SIG_INITIATIVE_PROACTIVITY": 0.5,
+          "SIG_NUMERACY_INTERPRETATION": 0.5,
+          "SIG_PLANNING_PRIORITISATION": 0.5
+        },
+        "unassessed": []
+      },
+      "name": "sparse_one_item_each",
+      "responses": {
+        "fq1": "C",
+        "fq11": "C",
+        "fq13": "C",
+        "fq3": "C",
+        "fq5": "C",
+        "fq7": "C",
+        "fq9": "C",
+        "q1": "C",
+        "q2": "C",
+        "q3": "C",
+        "q4": "C",
+        "q5": "C"
+      }
+    },
+    {
+      "expected": {
+        "config_digest": "d89f32209419e4d0fb08d9dc32f0c59104317e417e72c8f906eaa3eb064042c2",
+        "config_version": "1.0.0",
+        "constructs": [],
+        "overall": {
+          "band": "Unassessed",
+          "normalised": 0.0
+        },
+        "signal_scores": {},
+        "unassessed": [
+          "SK_COMMUNICATION",
+          "SK_CRITICAL_THINKING",
+          "SK_DECISION_MAKING",
+          "SK_COLLABORATION",
+          "SK_ACCOUNTABILITY",
+          "SK_ADAPTABILITY",
+          "SK_DIGITAL",
+          "SK_PLANNING",
+          "SK_INITIATIVE",
+          "SK_ETHICS",
+          "SK_NUMERACY",
+          "SK_CAREER"
+        ]
+      },
+      "name": "empty",
+      "responses": {}
+    }
+  ],
+  "config_digest": "d89f32209419e4d0fb08d9dc32f0c59104317e417e72c8f906eaa3eb064042c2",
+  "config_version": "1.0.0"
+}

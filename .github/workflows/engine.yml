@@ -1,0 +1,34 @@
+name: engine
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: engine
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -e ".[dev]"
+
+      # Release gate. A failure here means scoring changed. The fix is a
+      # new config version, never a regenerated baseline on this branch.
+      - name: Test (includes determinism gate)
+        run: pytest -q
+
+      # The evidence document is generated from the engine configuration.
+      # If regenerating it produces a diff, the committed document has
+      # drifted from the config it claims to describe.
+      - name: EVIDENCE.md is in sync with the configuration
+        run: |
+          python tools/build_evidence_doc.py
+          git diff --exit-code EVIDENCE.md

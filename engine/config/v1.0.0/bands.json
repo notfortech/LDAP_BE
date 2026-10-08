@@ -1,0 +1,27 @@
+{
+  "band_set_id": "four_band_quartile",
+  "bands": [
+    {
+      "label": "Emerging",
+      "min": 0.0,
+      "max": 0.25
+    },
+    {
+      "label": "Developing",
+      "min": 0.25,
+      "max": 0.5
+    },
+    {
+      "label": "Proficient",
+      "min": 0.5,
+      "max": 0.75
+    },
+    {
+      "label": "Strong",
+      "min": 0.75,
+      "max": 1.0
+    }
+  ],
+  "boundary_rule": "lower_inclusive_upper_exclusive_except_top",
+  "rationale": "Quartile cut-points on the normalised score. These are reporting conventions chosen for interpretability, not empirically derived cut-scores, and no external criterion validates them."
+}

@@ -1,0 +1,10 @@
+{
+  "scale_id": "four_point_sj",
+  "options": {
+    "A": 1.0,
+    "B": 0.75,
+    "C": 0.5,
+    "D": 0.25
+  },
+  "rationale": "Four ordered options force a directional choice and remove a neutral midpoint. Equal 0.25 spacing asserts ordinal rank only; it does not claim equal psychological intervals."
+}

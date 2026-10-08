@@ -1,0 +1,14 @@
+{
+  "config_version": "1.0.0",
+  "status": "draft",
+  "change_policy": "versioned_only",
+  "scope": [
+    "construct definitions",
+    "signal to item mappings",
+    "response scale weights",
+    "band thresholds",
+    "evidence register"
+  ],
+  "notes": "Initial extraction of the deterministic engine into a standalone, versioned package. Status stays draft until the evidence gaps in EVIDENCE.md are closed or formally accepted.",
+  "supersedes": null
+}

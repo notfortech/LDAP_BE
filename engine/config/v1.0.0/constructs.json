@@ -1,0 +1,389 @@
+{
+  "constructs": [
+    {
+      "construct_id": "SK_COMMUNICATION",
+      "display_name": "Communication & Expression",
+      "definition": "Conveys information clearly and adjusts detail and tone to the audience.",
+      "observable_indicators": [
+        "States the essential point before the detail",
+        "Adjusts register for the listener",
+        "Checks understanding rather than assuming it"
+      ],
+      "derived_from": [
+        {
+          "signal_id": "SIG_COMMUNICATION_TRANSPARENCY",
+          "weight": 1.0
+        }
+      ],
+      "evidence": {
+        "framework_basis": {
+          "aqf_theme": "Communicates knowledge and ideas to a range of audiences",
+          "acara_general_capability": "Literacy",
+          "csfw_area": "Communicate for work",
+          "asc_core_competency": "Speaking / Active Listening / Writing"
+        },
+        "mapping_strength": "strong",
+        "item_support": 2,
+        "validation_status": "framework-aligned",
+        "empirical_validation": "none",
+        "confidence": "medium",
+        "known_limitations": [
+          "Written expression is not directly observed; items infer it from choice behaviour"
+        ]
+      }
+    },
+    {
+      "construct_id": "SK_CRITICAL_THINKING",
+      "display_name": "Critical Thinking & Problem-Solving",
+      "definition": "Questions assumptions and analyses a situation before acting.",
+      "observable_indicators": [
+        "Seeks disconfirming information",
+        "Separates symptom from cause",
+        "Evaluates more than one option"
+      ],
+      "derived_from": [
+        {
+          "signal_id": "SIG_CRITICAL_VERIFICATION",
+          "weight": 1.0
+        }
+      ],
+      "evidence": {
+        "framework_basis": {
+          "aqf_theme": "Analyses, synthesises and evaluates information",
+          "acara_general_capability": "Critical & Creative Thinking",
+          "csfw_area": "Identify and solve problems",
+          "asc_core_competency": "Critical Thinking / Complex Problem Solving"
+        },
+        "mapping_strength": "strong",
+        "item_support": 2,
+        "validation_status": "framework-aligned",
+        "empirical_validation": "none",
+        "confidence": "medium",
+        "known_limitations": [
+          "Situational items constrain the option set, so option generation is not observed"
+        ]
+      }
+    },
+    {
+      "construct_id": "SK_DECISION_MAKING",
+      "display_name": "Decision-Making & Judgement",
+      "definition": "Weighs trade-offs and decides under incomplete information or time pressure.",
+      "observable_indicators": [
+        "Acts without complete information when acting is warranted",
+        "Names the trade-off accepted",
+        "Escalates when the decision is not theirs"
+      ],
+      "derived_from": [
+        {
+          "signal_id": "SIG_DECISION_TRIAGE",
+          "weight": 1.0
+        }
+      ],
+      "evidence": {
+        "framework_basis": {
+          "aqf_theme": "Exercises judgement across a range of contexts",
+          "acara_general_capability": "Critical & Creative Thinking",
+          "csfw_area": "Make decisions",
+          "asc_core_competency": "Judgment and Decision Making"
+        },
+        "mapping_strength": "strong",
+        "item_support": 2,
+        "validation_status": "framework-aligned",
+        "empirical_validation": "none",
+        "confidence": "medium",
+        "known_limitations": [
+          "Real decisions carry consequence; a scenario does not, which weakens behavioural fidelity"
+        ]
+      }
+    },
+    {
+      "construct_id": "SK_COLLABORATION",
+      "display_name": "Collaboration & Teamwork",
+      "definition": "Contributes reliably in a group and handles disagreement constructively.",
+      "observable_indicators": [
+        "Raises a concern directly rather than around the person",
+        "Accepts a group decision it argued against",
+        "Shares credit and information"
+      ],
+      "derived_from": [
+        {
+          "signal_id": "SIG_COLLABORATION_DIRECTNESS",
+          "weight": 1.0
+        }
+      ],
+      "evidence": {
+        "framework_basis": {
+          "aqf_theme": "Works autonomously and collaboratively",
+          "acara_general_capability": "Personal & Social Capability",
+          "csfw_area": "Connect and work with others",
+          "asc_core_competency": "Coordination / Social Perceptiveness"
+        },
+        "mapping_strength": "strong",
+        "item_support": 2,
+        "validation_status": "framework-aligned",
+        "empirical_validation": "none",
+        "confidence": "medium",
+        "known_limitations": [
+          "Self-report of group behaviour is subject to social desirability bias"
+        ]
+      }
+    },
+    {
+      "construct_id": "SK_ACCOUNTABILITY",
+      "display_name": "Accountability & Reliability",
+      "definition": "Owns outcomes, follows through, and is honest about mistakes.",
+      "observable_indicators": [
+        "Reports a problem it caused before being asked",
+        "Follows through when inconvenient",
+        "Does not distribute blame"
+      ],
+      "derived_from": [
+        {
+          "signal_id": "SIG_ACCOUNTABILITY_OWNERSHIP",
+          "weight": 1.0
+        }
+      ],
+      "evidence": {
+        "framework_basis": {
+          "aqf_theme": "Takes responsibility within defined parameters",
+          "acara_general_capability": "Personal & Social Capability",
+          "csfw_area": "Work with roles, rights and protocols",
+          "asc_core_competency": "Monitoring"
+        },
+        "mapping_strength": "strong",
+        "item_support": 2,
+        "validation_status": "framework-aligned",
+        "empirical_validation": "none",
+        "confidence": "medium",
+        "known_limitations": [
+          "Strongly susceptible to social desirability; the correct answer is often obvious"
+        ]
+      }
+    },
+    {
+      "construct_id": "SK_ADAPTABILITY",
+      "display_name": "Adaptability & Resilience",
+      "definition": "Responds to change, setback or ambiguity without disengaging.",
+      "observable_indicators": [
+        "Re-plans rather than stalls",
+        "Treats a setback as information",
+        "Tolerates unresolved ambiguity"
+      ],
+      "derived_from": [
+        {
+          "signal_id": "SIG_ADAPTABILITY_RESPONSE",
+          "weight": 1.0
+        }
+      ],
+      "evidence": {
+        "framework_basis": {
+          "aqf_theme": "Adapts knowledge and skills to new or changing contexts",
+          "acara_general_capability": "Personal & Social Capability",
+          "csfw_area": "Navigate the world of work",
+          "asc_core_competency": "Active Learning"
+        },
+        "mapping_strength": "moderate",
+        "item_support": 2,
+        "validation_status": "framework-aligned",
+        "empirical_validation": "none",
+        "confidence": "low-medium",
+        "known_limitations": [
+          "Resilience over time cannot be observed in a single sitting"
+        ]
+      }
+    },
+    {
+      "construct_id": "SK_DIGITAL",
+      "display_name": "Digital & Technology Capability",
+      "definition": "Uses digital tools appropriately and safely for the task at hand.",
+      "observable_indicators": [
+        "Chooses a proportionate tool",
+        "Recognises a data-handling risk",
+        "Seeks help before improvising with unfamiliar systems"
+      ],
+      "derived_from": [
+        {
+          "signal_id": "SIG_DIGITAL_TOOL_JUDGEMENT",
+          "weight": 1.0
+        }
+      ],
+      "evidence": {
+        "framework_basis": {
+          "aqf_theme": "Applies technical and digital skills appropriate to level",
+          "acara_general_capability": "Digital Literacy",
+          "csfw_area": "Work in a digital world",
+          "asc_core_competency": "Technology Design"
+        },
+        "mapping_strength": "moderate",
+        "item_support": 2,
+        "validation_status": "framework-aligned",
+        "empirical_validation": "none",
+        "confidence": "low-medium",
+        "known_limitations": [
+          "Measures judgement about tools, not operational skill with any tool"
+        ]
+      }
+    },
+    {
+      "construct_id": "SK_PLANNING",
+      "display_name": "Planning & Organisation",
+      "definition": "Sequences work, manages time and resources, and meets deadlines.",
+      "observable_indicators": [
+        "Orders work by dependency, not arrival",
+        "Protects time for committed work",
+        "Renegotiates a deadline early"
+      ],
+      "derived_from": [
+        {
+          "signal_id": "SIG_PLANNING_PRIORITISATION",
+          "weight": 1.0
+        }
+      ],
+      "evidence": {
+        "framework_basis": {
+          "aqf_theme": "Plans and executes tasks to a required standard",
+          "acara_general_capability": "(no clean mapping)",
+          "csfw_area": "Plan and organise",
+          "asc_core_competency": "Time Management"
+        },
+        "mapping_strength": "moderate",
+        "item_support": 2,
+        "validation_status": "framework-aligned",
+        "empirical_validation": "none",
+        "confidence": "low-medium",
+        "known_limitations": [
+          "No Australian Curriculum general capability maps cleanly; the curriculum column is weak here"
+        ]
+      }
+    },
+    {
+      "construct_id": "SK_INITIATIVE",
+      "display_name": "Initiative & Creativity",
+      "definition": "Self-directs, proposes improvements, and generates options beyond the obvious.",
+      "observable_indicators": [
+        "Acts within mandate without being prompted",
+        "Proposes an improvement with a reason",
+        "Offers an option not presented"
+      ],
+      "derived_from": [
+        {
+          "signal_id": "SIG_INITIATIVE_PROACTIVITY",
+          "weight": 1.0
+        }
+      ],
+      "evidence": {
+        "framework_basis": {
+          "aqf_theme": "Generates novel or improved approaches",
+          "acara_general_capability": "Critical & Creative Thinking",
+          "csfw_area": "Create and innovate",
+          "asc_core_competency": "Active Learning / Learning Strategies"
+        },
+        "mapping_strength": "moderate",
+        "item_support": 2,
+        "validation_status": "framework-aligned",
+        "empirical_validation": "none",
+        "confidence": "low-medium",
+        "known_limitations": [
+          "Fixed-option items structurally limit observation of generative behaviour"
+        ]
+      }
+    },
+    {
+      "construct_id": "SK_ETHICS",
+      "display_name": "Ethical & Professional Practice",
+      "definition": "Understands workplace rights and protocols and acts with integrity.",
+      "observable_indicators": [
+        "Applies a rule it finds inconvenient",
+        "Raises a concern through the right channel",
+        "Declines an improper request"
+      ],
+      "derived_from": [
+        {
+          "signal_id": "SIG_ETHICS_INTEGRITY",
+          "weight": 1.0
+        }
+      ],
+      "evidence": {
+        "framework_basis": {
+          "aqf_theme": "Acts within ethical and professional expectations",
+          "acara_general_capability": "Ethical Understanding",
+          "csfw_area": "Work with roles, rights and protocols",
+          "asc_core_competency": "Service Orientation"
+        },
+        "mapping_strength": "moderate",
+        "item_support": 2,
+        "validation_status": "framework-aligned",
+        "empirical_validation": "none",
+        "confidence": "low-medium",
+        "known_limitations": [
+          "The defensible answer is usually identifiable, which compresses the score range upward"
+        ]
+      }
+    },
+    {
+      "construct_id": "SK_NUMERACY",
+      "display_name": "Numeracy & Data Literacy",
+      "definition": "Interprets numbers and data correctly enough to act on them.",
+      "observable_indicators": [
+        "Notices an implausible figure",
+        "Distinguishes proportion from count",
+        "Acts on what the number supports, not more"
+      ],
+      "derived_from": [
+        {
+          "signal_id": "SIG_NUMERACY_INTERPRETATION",
+          "weight": 1.0
+        }
+      ],
+      "evidence": {
+        "framework_basis": {
+          "aqf_theme": "Applies quantitative reasoning to real problems",
+          "acara_general_capability": "Numeracy",
+          "csfw_area": "Get the work done",
+          "asc_core_competency": "Operations Analysis"
+        },
+        "mapping_strength": "moderate",
+        "item_support": 2,
+        "validation_status": "framework-aligned",
+        "empirical_validation": "none",
+        "confidence": "low-medium",
+        "known_limitations": [
+          "Situational items test interpretation, not computation; this is narrower than numeracy"
+        ]
+      }
+    },
+    {
+      "construct_id": "SK_CAREER",
+      "display_name": "Career Self-Management & Navigation",
+      "definition": "Understands own goals and pathways and how to seek help and opportunity.",
+      "observable_indicators": [
+        "Can name a concrete next step",
+        "Seeks help from an appropriate source",
+        "Relates current activity to a pathway"
+      ],
+      "derived_from": [
+        {
+          "signal_id": "SIG_CAREER_DIRECTION",
+          "weight": 1.0
+        }
+      ],
+      "evidence": {
+        "framework_basis": {
+          "aqf_theme": "Understands own standing relative to a qualification pathway",
+          "acara_general_capability": "(no clean mapping)",
+          "csfw_area": "Manage career and work life",
+          "asc_core_competency": "(no clean mapping)"
+        },
+        "mapping_strength": "weak",
+        "item_support": 2,
+        "validation_status": "framework-aligned",
+        "empirical_validation": "none",
+        "confidence": "low-medium",
+        "known_limitations": [
+          "Neither the Australian Curriculum nor the core-competency layer maps cleanly",
+          "The weakest-grounded construct of the twelve; carried because it is what institutions ask for"
+        ]
+      }
+    }
+  ]
+}

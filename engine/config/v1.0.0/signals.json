@@ -1,0 +1,172 @@
+{
+  "signals": [
+    {
+      "signal_id": "SIG_ACCOUNTABILITY_OWNERSHIP",
+      "description": "Owns outcomes and follows through, including when a situation is inconvenient.",
+      "items": [
+        {
+          "item_id": "q1",
+          "weight": 1.0
+        },
+        {
+          "item_id": "fq15",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "signal_id": "SIG_DECISION_TRIAGE",
+      "description": "Weighs impact and urgency before committing to an action under competing demands.",
+      "items": [
+        {
+          "item_id": "q2",
+          "weight": 1.0
+        },
+        {
+          "item_id": "fq16",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "signal_id": "SIG_COMMUNICATION_TRANSPARENCY",
+      "description": "Explains reasoning clearly, including the parts that reflect poorly on themselves.",
+      "items": [
+        {
+          "item_id": "q3",
+          "weight": 1.0
+        },
+        {
+          "item_id": "fq17",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "signal_id": "SIG_COLLABORATION_DIRECTNESS",
+      "description": "Raises disagreement directly with the person involved rather than around them.",
+      "items": [
+        {
+          "item_id": "q4",
+          "weight": 1.0
+        },
+        {
+          "item_id": "fq18",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "signal_id": "SIG_CRITICAL_VERIFICATION",
+      "description": "Checks assumptions and underlying data before acting on a surprising result.",
+      "items": [
+        {
+          "item_id": "q5",
+          "weight": 1.0
+        },
+        {
+          "item_id": "fq19",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "signal_id": "SIG_ADAPTABILITY_RESPONSE",
+      "description": "Adjusts approach constructively when plans change or setbacks occur, rather than freezing or reverting to complaint.",
+      "items": [
+        {
+          "item_id": "fq1",
+          "weight": 1.0
+        },
+        {
+          "item_id": "fq2",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "signal_id": "SIG_DIGITAL_TOOL_JUDGEMENT",
+      "description": "Chooses and uses digital tools appropriately, and checks unfamiliar information or tools before relying on them.",
+      "items": [
+        {
+          "item_id": "fq3",
+          "weight": 1.0
+        },
+        {
+          "item_id": "fq4",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "signal_id": "SIG_PLANNING_PRIORITISATION",
+      "description": "Breaks larger tasks into manageable steps and sequences them realistically against a deadline.",
+      "items": [
+        {
+          "item_id": "fq5",
+          "weight": 1.0
+        },
+        {
+          "item_id": "fq6",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "signal_id": "SIG_INITIATIVE_PROACTIVITY",
+      "description": "Identifies opportunities to improve a situation or process and acts on them without being told to.",
+      "items": [
+        {
+          "item_id": "fq7",
+          "weight": 1.0
+        },
+        {
+          "item_id": "fq8",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "signal_id": "SIG_ETHICS_INTEGRITY",
+      "description": "Acts with honesty and fairness even when a shortcut or self-serving choice would be easier and unlikely to be noticed.",
+      "items": [
+        {
+          "item_id": "fq9",
+          "weight": 1.0
+        },
+        {
+          "item_id": "fq10",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "signal_id": "SIG_NUMERACY_INTERPRETATION",
+      "description": "Reads and interprets numbers and data (rates, proportions, simple charts) correctly before using them to make a decision.",
+      "items": [
+        {
+          "item_id": "fq11",
+          "weight": 1.0
+        },
+        {
+          "item_id": "fq12",
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "signal_id": "SIG_CAREER_DIRECTION",
+      "description": "Takes ownership of their own learning or career direction, seeking feedback and information rather than waiting passively.",
+      "items": [
+        {
+          "item_id": "fq13",
+          "weight": 1.0
+        },
+        {
+          "item_id": "fq14",
+          "weight": 1.0
+        }
+      ]
+    }
+  ]
+}
