@@ -61,6 +61,25 @@ application would have no tenant isolation, and it will refuse to start.
 re-own `public`. The Supabase script sets every attribute at
 `CREATE ROLE` instead, which is permitted.
 
+## Prerequisites
+
+The script needs `az` and `docker` **in the same shell it runs in**. On
+Windows that is the usual trap: the Azure CLI installed in PowerShell
+while the script runs under WSL or Git Bash, where it is not on PATH.
+
+```bash
+az version && docker version     # both must answer in this terminal
+az login --use-device-code       # plain 'az login' cannot open a browser
+az account show                  # confirms the session
+```
+
+Use `--use-device-code` in WSL, over SSH, in a devcontainer or in
+Codespaces: the CLI has no browser to open there, so plain `az login`
+hangs. It prints a code and a URL to open anywhere.
+
+If VS Code's bottom-left corner says WSL, Dev Container or SSH, your
+terminal is on that machine, and both tools must be installed there.
+
 ## Shortcut: one script for steps 4-6
 
 `scripts/deploy-azure.sh` does the migrations, the Container App and the

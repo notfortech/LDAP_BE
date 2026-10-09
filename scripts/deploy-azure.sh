@@ -50,8 +50,23 @@ die()  { printf '   \033[31m✗ %s\033[0m\n' "$1"; exit 1; }
 for v in DOCKERHUB_USER DOCKERHUB_TOKEN SUPABASE_REF SUPABASE_DB_PASSWORD APTUS_APP_PASSWORD; do
   [ -n "${!v}" ] || die "$v is empty — fill in the block at the top of this script"
 done
-command -v az     >/dev/null || die "the Azure CLI is not installed"
-command -v docker >/dev/null || die "docker is not installed"
+# Both must exist in THIS shell. On Windows the usual trap is the Azure
+# CLI installed in PowerShell while this script runs under WSL or Git
+# Bash, where it is not on PATH.
+command -v az >/dev/null || die "the Azure CLI is not on PATH in this shell.
+     WSL/Ubuntu: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+     macOS:      brew install azure-cli"
+command -v docker >/dev/null || die "docker is not on PATH in this shell"
+
+# Checked here rather than left to fail partway through. In WSL, SSH, a
+# devcontainer or Codespaces the CLI cannot open a browser, so plain
+# 'az login' hangs; device code works everywhere.
+az account show >/dev/null 2>&1 || die "not signed in to Azure. Run:
+     az login --use-device-code
+   then, if you have more than one subscription:
+     az account set --subscription \"<name or id>\""
+
+docker info >/dev/null 2>&1 || die "the Docker daemon is not running"
 
 # ── 3. Migrations ──────────────────────────────────────────────────────
 say "3. Applying migrations over the session pooler"
