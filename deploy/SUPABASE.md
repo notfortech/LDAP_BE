@@ -61,6 +61,21 @@ application would have no tenant isolation, and it will refuse to start.
 re-own `public`. The Supabase script sets every attribute at
 `CREATE ROLE` instead, which is permitted.
 
+## Shortcut: one script for steps 4-6
+
+`scripts/deploy-azure.sh` does the migrations, the Container App and the
+verification in one run. Copy it, fill in the block at the top, run it:
+
+```bash
+cp scripts/deploy-azure.sh deploy-azure.local.sh   # gitignored
+$EDITOR deploy-azure.local.sh
+./deploy-azure.local.sh
+```
+
+It stops at the first failure with the reason, and every step is
+idempotent, so a half-finished run can be fixed and re-run. The manual
+steps below are the same thing if you would rather do it by hand.
+
 ## 4. Run the migrations
 
 Over the **session** pooler, as `postgres`, from the published image —

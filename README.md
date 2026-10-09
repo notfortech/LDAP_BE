@@ -34,6 +34,8 @@ These are load-bearing. Everything else is subordinate to them.
 
 ## Testing
 
+Deploy with `scripts/deploy-azure.sh` (see **[deploy/SUPABASE.md](deploy/SUPABASE.md)**).
+
 See **[TESTING.md](TESTING.md)** — automated suites, a narrated
 walkthrough (`./scripts/demo.sh`), how to verify row-level security
 yourself in psql, and an honest list of what is not covered.

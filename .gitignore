@@ -7,3 +7,7 @@ venv/
 .env
 *.db
 .DS_Store
+
+# A filled-in copy of scripts/deploy-azure.sh holds real passwords.
+deploy-azure.local.sh
+*.local.sh
