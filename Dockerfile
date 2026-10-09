@@ -52,6 +52,12 @@ EXPOSE 8080
 # --factory because create_app() validates configuration and the
 # row-level-security posture before returning. A misconfigured
 # production deployment fails here rather than serving requests.
-CMD ["uvicorn", "aptus_api.main:create_app", "--factory", \
-     "--host", "0.0.0.0", "--port", "8080", "--proxy-headers", \
-     "--forwarded-allow-ips", "*"]
+#
+# Shell form so ${PORT} expands: platforms that assign a port (Render,
+# Heroku, Cloud Run) inject it and expect the process to bind to it.
+# 8080 is the fallback for platforms that do not, and matches EXPOSE.
+# exec replaces the shell so uvicorn is PID 1 and receives SIGTERM,
+# otherwise the platform's graceful shutdown becomes a hard kill.
+CMD ["sh", "-c", "exec uvicorn aptus_api.main:create_app --factory \
+     --host 0.0.0.0 --port ${PORT:-8080} \
+     --proxy-headers --forwarded-allow-ips '*'"]

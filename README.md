@@ -34,7 +34,7 @@ These are load-bearing. Everything else is subordinate to them.
 
 ## Testing
 
-Deploy with `scripts/deploy-azure.sh` (see **[deploy/SUPABASE.md](deploy/SUPABASE.md)**).
+Deploy: **[deploy/RENDER.md](deploy/RENDER.md)** — Render for compute, Supabase for data, both free.
 
 See **[TESTING.md](TESTING.md)** — automated suites, a narrated
 walkthrough (`./scripts/demo.sh`), how to verify row-level security
@@ -62,7 +62,7 @@ pytest
 | Assessment-to-pathway flow | Built — invite, assess, score, passport, pathway |
 | Reference library (global + org fork, versioned) | Built — model and resolver |
 | Row-level security (database layer) | Built — policies, posture guard, 13 tests on real PostgreSQL |
-| Deployment | Built — Dockerfile (verified), Docker Hub workflow, deploy/AZURE.md, deploy/SUPABASE.md, deploy/FLY.md |
+| Deployment | Built — Dockerfile (verified), Docker Hub workflow, deploy/RENDER.md |
 | Colleague invitation | Not started |
 
 The backlog driving the remaining work is the backend story set: an

@@ -1,7 +1,10 @@
 # Supabase free tier as the demo database
 
-Free, real PostgreSQL, full row-level security. Pairs with the Azure
-Container App in `AZURE.md` — this replaces only the database.
+Free, real PostgreSQL, full row-level security.
+
+**This file covers the database only.** For the whole deployment —
+Render for compute, Supabase for data — see **[RENDER.md](RENDER.md)**,
+which is the path to follow.
 
 ## Why this works, given Supabase's `postgres` role bypasses RLS
 
@@ -61,40 +64,6 @@ application would have no tenant isolation, and it will refuse to start.
 re-own `public`. The Supabase script sets every attribute at
 `CREATE ROLE` instead, which is permitted.
 
-## Prerequisites
-
-The script needs `az` and `docker` **in the same shell it runs in**. On
-Windows that is the usual trap: the Azure CLI installed in PowerShell
-while the script runs under WSL or Git Bash, where it is not on PATH.
-
-```bash
-az version && docker version     # both must answer in this terminal
-az login --use-device-code       # plain 'az login' cannot open a browser
-az account show                  # confirms the session
-```
-
-Use `--use-device-code` in WSL, over SSH, in a devcontainer or in
-Codespaces: the CLI has no browser to open there, so plain `az login`
-hangs. It prints a code and a URL to open anywhere.
-
-If VS Code's bottom-left corner says WSL, Dev Container or SSH, your
-terminal is on that machine, and both tools must be installed there.
-
-## Shortcut: one script for steps 4-6
-
-`scripts/deploy-azure.sh` does the migrations, the Container App and the
-verification in one run. Copy it, fill in the block at the top, run it:
-
-```bash
-cp scripts/deploy-azure.sh deploy-azure.local.sh   # gitignored
-$EDITOR deploy-azure.local.sh
-./deploy-azure.local.sh
-```
-
-It stops at the first failure with the reason, and every step is
-idempotent, so a half-finished run can be fixed and re-run. The manual
-steps below are the same thing if you would rather do it by hand.
-
 ## 4. Run the migrations
 
 Over the **session** pooler, as `postgres`, from the published image —
@@ -115,71 +84,6 @@ later migration):
 ```sql
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO aptus_app;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO aptus_app;
-```
-
-## 5. Point the Container App at the transaction pooler
-
-```bash
-az containerapp secret set \
-  --name aptus-backend --resource-group aptus-staging \
-  --secrets db-url='postgresql+psycopg://aptus_app:<app-password>@aws-0-ap-southeast-2.pooler.supabase.com:6543/postgres'
-
-az containerapp update \
-  --name aptus-backend --resource-group aptus-staging \
-  --set-env-vars APTUS_DATABASE_URL=secretref:db-url
-```
-
-The backend detects a transaction pooler from the URL and adjusts
-automatically: prepared statements off, client-side pooling disabled.
-Both are required — a transaction pooler gives each transaction a
-different backend, so a prepared statement from one is unknown to the
-next (`prepared statement "_pg3_0" already exists`), and a client-side
-pool only consumes the pooler's limited slots.
-
-Override with `APTUS_DB_TRANSACTION_POOLER=true|false` if detection ever
-gets it wrong. The choice is logged at startup.
-
-### Keeping the demo cheap
-
-Supabase free is free. The Container App is not, at the spec in
-`AZURE.md`. For a demo:
-
-```bash
-az containerapp update --name aptus-backend --resource-group aptus-staging \
-  --cpu 0.25 --memory 0.5Gi --min-replicas 0 --max-replicas 1
-```
-
-Scale-to-zero costs a few seconds on the first request. Warm it with a
-`curl` before a demo.
-
-## 6. Verify
-
-```bash
-URL=$(az containerapp show --name aptus-backend --resource-group aptus-staging \
-      --query properties.configuration.ingress.fqdn -o tsv)
-
-curl https://$URL/health
-curl https://$URL/version
-curl https://$URL/rls      # the one that matters
-```
-
-`/rls` must report `"enforced": true` with `"role": "aptus_app"`. On
-Supabase specifically, check this rather than assume: it is the
-difference between policies that apply and policies that are ignored.
-
-Then the full walkthrough:
-
-```bash
-./scripts/demo.sh https://$URL      # expect 36 passed
-```
-
-Seed the demonstration references first if you want the pathway to
-return mappings — over the **session** pooler as `postgres`, since
-global rows are maintained outside any tenant:
-
-```bash
-python scripts/seed-demo-references.py \
-  "postgresql+psycopg://postgres.<ref>:<db-password>@aws-0-ap-southeast-2.pooler.supabase.com:5432/postgres"
 ```
 
 ## Free tier limits worth knowing
@@ -205,7 +109,8 @@ python scripts/seed-demo-references.py \
   your tables. The backend does not use it, and nothing should: that
   path authenticates as `anon` or `authenticated`, which this schema has
   no policies for. Leave those roles without grants on these tables.
-- **Move to a paid plan or Azure Flexible Server before a pilot.** A new
-  Azure account includes 750 hours of B1ms PostgreSQL free for 12
-  months, which is the same database `AZURE.md` describes at no cost —
-  worth checking your eligibility.
+- **Move off the free tier before a pilot.** No point-in-time restore,
+  modest connection limits, and projects pause when idle. A new Azure
+  account includes 750 hours of Burstable B1ms PostgreSQL free for 12
+  months, which is worth checking if an Australian-region managed
+  database becomes a requirement.

@@ -1,0 +1,50 @@
+# Render Blueprint for the Aptus backend.
+#
+# Compute on Render, database on Supabase. Both free.
+#
+# Apply with: Render dashboard -> Blueprints -> New Blueprint Instance,
+# pointing at this repository. Or create the service by hand from the
+# dashboard; this file just records the same settings.
+
+services:
+  - type: web
+    name: aptus-be
+    runtime: docker
+    plan: free
+    region: singapore          # closest Render region to Australia
+    dockerfilePath: ./Dockerfile
+    # Build context is the repository root: the image needs both engine/
+    # and api/, because the API imports the engine package.
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeploy: false          # deploy deliberately, not on every push
+
+    envVars:
+      - key: APTUS_ENV
+        value: production
+
+      # Render generates this once and keeps it stable across deploys.
+      # Regenerating it would invalidate every signed-in session.
+      - key: APTUS_SECRET_KEY
+        generateValue: true
+
+      # Supabase transaction pooler (port 6543), as the aptus_app role.
+      # Set in the dashboard, never here. The engine detects the pooler
+      # from the URL and disables prepared statements and client-side
+      # pooling, both of which a transaction pooler breaks.
+      - key: APTUS_DATABASE_URL
+        sync: false
+
+      # Whichever frontends call this API. Production rejects '*'.
+      - key: APTUS_ALLOWED_ORIGINS
+        value: https://aptus-demo.onrender.com,http://localhost:5173
+
+      # No email adapter ships yet, and production refuses to start when
+      # verification is required but undeliverable. Organisations
+      # activate on signup without proving email ownership, which is
+      # acceptable for a closed demo and not for a public URL.
+      - key: APTUS_REQUIRE_EMAIL_VERIFICATION
+        value: "false"
+
+# Render injects PORT and the container binds to it; the Dockerfile
+# falls back to 8080 when nothing sets it.
